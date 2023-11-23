@@ -1,3 +1,7 @@
+using BookstoreManager.BookstoreManager;
+using BookstoreManager.IBookstoreManager;
+using BookstoreRepository.BookstoreRepository;
+using BookstoreRepository.IBookstoreRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +35,11 @@ namespace BookstoreApplication
         {
             services.AddControllers();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            //users
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookstore App", Version = "v1", Description = "Bookstore Applcation" });
@@ -92,17 +101,26 @@ namespace BookstoreApplication
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors(x => x
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+            app.UseAuthentication();
+            app.UseAuthorization(); 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fundoo App");
+            }); 
         }
     }
 }

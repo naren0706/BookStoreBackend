@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookstoreManager\BookstoreManager.csproj" />
+    <ProjectReference Include="..\BookstoreModel\BookstoreModel.csproj" />
   </ItemGroup>
 
 
