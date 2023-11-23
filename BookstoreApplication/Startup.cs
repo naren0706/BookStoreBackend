@@ -1,3 +1,4 @@
+using BookstoreManager;
 using BookstoreManager.BookstoreManager;
 using BookstoreManager.IBookstoreManager;
 using BookstoreRepository.BookstoreRepository;
@@ -39,6 +40,10 @@ namespace BookstoreApplication
             //users
             services.AddScoped<IUserManager, UserManager>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //book
+            services.AddScoped<IBookManager, BookManager>();
+            services.AddScoped<IBookRepository, BookRepository>();
 
             services.AddSwaggerGen(c =>
             {

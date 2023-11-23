@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Experimental.System.Messaging" Version="1.1.0" />
+    <PackageReference Include="NLog" Version="5.2.6" />
+    <PackageReference Include="NLog.Config" Version="4.7.15" />
   </ItemGroup>
 
 </Project>

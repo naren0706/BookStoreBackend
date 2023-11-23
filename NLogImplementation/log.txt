@@ -1,0 +1,1 @@
+﻿2023-11-23 12:02:32.0478|INFO|NlogImplementation.NlogOperation|Registered successfully

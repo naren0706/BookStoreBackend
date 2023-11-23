@@ -6,6 +6,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookstoreModel\BookstoreModel.csproj" />
+    <ProjectReference Include="..\NLogImplementation\NLogImplementation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SqlQuerries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.32" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
   </ItemGroup>
 
 </Project>
