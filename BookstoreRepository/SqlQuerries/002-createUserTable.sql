@@ -7,3 +7,5 @@ email varchar(max) not null,
 password varchar(max) not null,
 MobileNumber varchar(max) not null,
 );
+
+drop table BookstoreUser

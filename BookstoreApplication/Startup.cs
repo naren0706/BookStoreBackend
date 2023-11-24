@@ -45,6 +45,10 @@ namespace BookstoreApplication
             services.AddScoped<IBookManager, BookManager>();
             services.AddScoped<IBookRepository, BookRepository>();
 
+            //wishList
+            services.AddScoped<IWishListManager, WishListManager>();
+            services.AddScoped<IWishListRepository, WishListRepository>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookstore App", Version = "v1", Description = "Bookstore Applcation" });

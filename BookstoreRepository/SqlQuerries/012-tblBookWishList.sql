@@ -5,3 +5,5 @@ BookId int not null
 FOREIGN KEY (UserId) REFERENCES BookstoreUser(UserID),
 FOREIGN KEY (BookId) REFERENCES BookstoreBooks(BookId)
 );
+
+drop table BooksWishList

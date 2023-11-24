@@ -18,10 +18,11 @@ namespace BookstoreApplication.Controllers
 
         [HttpPost]
         [Route("addBook")]
-        public ActionResult AddBook(Book objBook ,IFormFile file)
+        public ActionResult AddBook(IFormFile file,Book dsad)
         {
             try
             {
+                Book objBook = new Book();
                 var result = this.bookManager.AddBook(file, objBook);
                 if (result != null)
                 {

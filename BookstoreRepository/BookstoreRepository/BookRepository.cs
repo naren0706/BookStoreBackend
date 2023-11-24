@@ -49,7 +49,7 @@ namespace BookstoreRepository.BookstoreRepository
                 cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));                
                 var cloudnaryfile = uploadResult.Uri.ToString();
                 objBook.BookImage = cloudnaryfile;
-                var result = this.AdddBook(objBook);
+                var result = this.AdddBookToSql(objBook);
                 return result;
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace BookstoreRepository.BookstoreRepository
             }
         }
 
-        private Book AdddBook(Book objBook)
+        private Book AdddBookToSql(Book objBook)
         {
             try
             {

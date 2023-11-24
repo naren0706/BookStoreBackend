@@ -6,3 +6,7 @@
 2023-11-24 12:21:30.7225|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
 2023-11-24 12:22:45.6673|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
 2023-11-24 12:27:28.5319|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_DeleteBook' expects parameter '@bookId', which was not supplied.
+2023-11-24 14:47:02.3113|ERROR|NlogImplementation.NlogOperation|book is not added to wishlist : "
+2023-11-24 14:54:01.8786|INFO|NlogImplementation.NlogOperation|book added to wishlist : 1
+2023-11-24 15:51:18.3075|INFO|NlogImplementation.NlogOperation|User Registers successfull
+2023-11-24 15:51:42.1457|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
