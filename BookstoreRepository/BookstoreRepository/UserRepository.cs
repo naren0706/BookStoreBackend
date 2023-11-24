@@ -179,7 +179,7 @@ namespace BookstoreRepository.BookstoreRepository
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, email),
-                    new Claim("Id",userId.ToString())
+                    new Claim("UserId",userId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

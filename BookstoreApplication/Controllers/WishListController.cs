@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
+using System.Security.Claims;
 
 namespace BookstoreApplication.Controllers
 {
@@ -20,11 +22,12 @@ namespace BookstoreApplication.Controllers
 
         [HttpPost]
         [Route("AddToWishList")]
-        public ActionResult AddBook(WishList ObjWishList)
+        public ActionResult AddToWishList(int bookId)
         {
             try
             {
-                var result = this.wishListManager.AddToWishList(ObjWishList);
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v=>v.Type=="UserId").Value);
+                var result = this.wishListManager.AddToWishList(userId,bookId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
@@ -42,7 +45,7 @@ namespace BookstoreApplication.Controllers
         {
             try
             {
-                var userId = 1;
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
                 var result = this.wishListManager.GetAllWishListBooks(userId);
                 if (result != null)
                 {
@@ -61,7 +64,7 @@ namespace BookstoreApplication.Controllers
         {
             try
             {
-                var userId = 1;
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
                 var result = this.wishListManager.RemoveBookFromWishList(userId,bookId);
                 if (result != null)
                 {

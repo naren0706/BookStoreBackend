@@ -11,3 +11,10 @@
 2023-11-24 15:51:18.3075|INFO|NlogImplementation.NlogOperation|User Registers successfull
 2023-11-24 15:51:42.1457|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
 2023-11-24 16:10:26.4009|INFO|NlogImplementation.NlogOperation|book added successfull for string
+2023-11-24 16:35:16.8515|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-11-24 16:38:46.0659|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-11-24 16:57:39.7508|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-11-24 17:09:04.3529|ERROR|NlogImplementation.NlogOperation|book is not added to wishlist due to The INSERT statement conflicted with the FOREIGN KEY constraint "FK__BooksWish__BookI__74AE54BC". The conflict occurred in database "Bookstore", table "dbo.BookstoreBooks", column 'BookId'.
+The statement has been terminated.
+2023-11-24 17:10:42.1110|ERROR|NlogImplementation.NlogOperation|book is removed from wishlist : 
+2023-11-24 17:30:46.2291|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com

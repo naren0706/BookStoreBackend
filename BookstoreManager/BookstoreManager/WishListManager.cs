@@ -13,9 +13,9 @@ namespace BookstoreManager.BookstoreManager
         public WishListManager(IWishListRepository WishListRepository) {
             this.wishListRepository = WishListRepository;
         }
-        public WishList AddToWishList(WishList ObjwishList)
+        public WishList AddToWishList(int userId, int bookId)
         {
-            var result = this.wishListRepository.AddToWishLoist(ObjwishList);
+            var result = this.wishListRepository.AddToWishLoist(userId,bookId);
             return result;
         }
 

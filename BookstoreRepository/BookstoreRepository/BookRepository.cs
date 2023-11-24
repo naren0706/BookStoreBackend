@@ -187,7 +187,7 @@ namespace BookstoreRepository.BookstoreRepository
             }
         }
 
-        private void UpdateLinkToSql(string cloudnaryfilelink, string bookId)
+        public void UpdateLinkToSql(string cloudnaryfilelink, string bookId)
         {
             try
             {
