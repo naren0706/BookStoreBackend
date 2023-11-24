@@ -29,47 +29,21 @@ namespace BookstoreRepository.BookstoreRepository
         {
             this.configuration = configuration;
         }
-        public Book AdddBook(IFormFile file, Book objBook)
-        {
-            try
-            {
-                if (file == null)
-                {
-                    return null;
-                }
-                var stream = file.OpenReadStream();
-                var name = file.FileName;
-                Account account = new Account("dzel62mup", "691995444473279", "PFGqItzTvOzXSLeOT8n3VyhENno");
-                Cloudinary cloudinary = new Cloudinary(account);
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(name, stream)
-                };
-                ImageUploadResult uploadResult = cloudinary.Upload(uploadParams);
-                cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));                
-                var cloudnaryfile = uploadResult.Uri.ToString();
-                objBook.BookImage = cloudnaryfile;
-                var result = this.AdddBookToSql(objBook);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        
 
-        private Book AdddBookToSql(Book objBook)
+        public Book AdddBook(Book objBook)
         {
             try
             {
                 bool result;
                 Connection();
+                string noimageurl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIYXRat2l2itCOItlYpY5cR-ebHyygIuGyAxDYPLhCBLE-IpTenmRu5quH-OiSPPtSKno&usqp=CAU";
                 SqlCommand com = new SqlCommand("SP_AddBooks", con);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@bookName", objBook.BookName);
                 com.Parameters.AddWithValue("@bookAuthor", objBook.BookAuthor);
                 com.Parameters.AddWithValue("@bookDescription", objBook.BookDescription);
-                com.Parameters.AddWithValue("@bookImage", objBook.BookImage);
+                com.Parameters.AddWithValue("@bookImage", noimageurl);
                 com.Parameters.AddWithValue("@bookCount", objBook.BookCount);
                 com.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
                 con.Open();
@@ -183,6 +157,52 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
                 return false;
+            }
+        }
+        public bool UploadImage(IFormFile file, string bookId)
+        {
+            try
+            {
+                if (file == null)
+                {
+                    return false;
+                }
+                var stream = file.OpenReadStream();
+                var name = file.FileName;
+                Account account = new Account("dzel62mup", "691995444473279", "PFGqItzTvOzXSLeOT8n3VyhENno");
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(name, stream)
+                };
+                ImageUploadResult uploadResult = cloudinary.Upload(uploadParams);
+                cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
+                var cloudnaryfilelink = uploadResult.Uri.ToString();
+                UpdateLinkToSql(cloudnaryfilelink, bookId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void UpdateLinkToSql(string cloudnaryfilelink, string bookId)
+        {
+            try
+            {
+                Connection();
+                SqlCommand com = new SqlCommand("SP_UploadImage", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@bookId", bookId);
+                com.Parameters.AddWithValue("@fileLink", cloudnaryfilelink);
+                con.Open();
+                var i = com.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                nlog.LogError("image added Unsuccessfull due to " + ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }

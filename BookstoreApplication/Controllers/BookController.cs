@@ -18,12 +18,11 @@ namespace BookstoreApplication.Controllers
 
         [HttpPost]
         [Route("addBook")]
-        public ActionResult AddBook(IFormFile file,Book dsad)
+        public ActionResult AddBook(Book objBook)
         {
             try
             {
-                Book objBook = new Book();
-                var result = this.bookManager.AddBook(file, objBook);
+                var result = this.bookManager.AddBook(objBook);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
@@ -81,6 +80,25 @@ namespace BookstoreApplication.Controllers
                 if (result)
                 {
                     return this.Ok(new { Status = true, Message = "Book deleted Successful"});
+                }
+                return this.BadRequest(new { Status = false, Message = "Not found" });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("UploadImage")]
+        public ActionResult AddBook(IFormFile file,string bookId)
+        {
+            try
+            {
+                var result = this.bookManager.UploadImage(file,bookId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
                 }
                 return this.BadRequest(new { Status = false, Message = "Not found" });
             }

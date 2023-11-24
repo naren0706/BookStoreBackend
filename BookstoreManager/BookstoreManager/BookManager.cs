@@ -15,9 +15,9 @@ namespace BookstoreManager
         {
             this.bookstoreRepository = bookstoreRepository;
         }
-        public Book AddBook(IFormFile file, Book objBook)
+        public Book AddBook(Book objBook)
         {
-            var result = this.bookstoreRepository.AdddBook(file, objBook);
+            var result = this.bookstoreRepository.AdddBook(objBook);
             return result;
         }
 
@@ -36,6 +36,12 @@ namespace BookstoreManager
         public bool UpdateBook(Book ObjBook)
         {
             var result = this.bookstoreRepository.UpdateBook(ObjBook);
+            return result;
+        }
+
+        public bool UploadImage(IFormFile file, string bookId)
+        {
+            var result = this.bookstoreRepository.UploadImage(file,bookId);
             return result;
         }
     }

@@ -10,3 +10,4 @@
 2023-11-24 14:54:01.8786|INFO|NlogImplementation.NlogOperation|book added to wishlist : 1
 2023-11-24 15:51:18.3075|INFO|NlogImplementation.NlogOperation|User Registers successfull
 2023-11-24 15:51:42.1457|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-11-24 16:10:26.4009|INFO|NlogImplementation.NlogOperation|book added successfull for string
