@@ -1,1 +1,8 @@
 ﻿2023-11-23 12:02:32.0478|INFO|NlogImplementation.NlogOperation|Registered successfully
+2023-11-24 11:10:18.1664|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_AddBooks' expects parameter '@bookDescription', which was not supplied.
+2023-11-24 11:12:12.6264|INFO|NlogImplementation.NlogOperation|book added successfull for qwerty
+2023-11-24 11:16:02.6190|INFO|NlogImplementation.NlogOperation|book added successfull for qwert
+2023-11-24 11:32:13.4315|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_GetAllBooks' expects parameter '@bookname', which was not supplied.
+2023-11-24 12:21:30.7225|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
+2023-11-24 12:22:45.6673|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
+2023-11-24 12:27:28.5319|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_DeleteBook' expects parameter '@bookId', which was not supplied.

@@ -21,10 +21,9 @@ namespace BookstoreRepository.BookstoreRepository
         NlogOperation nlog = new NlogOperation();
         private SqlConnection con;
         public readonly IConfiguration configuration;
-        public string key = "narenwtuyg212835725382172qiueqw8et8w";
         private void Connection()
         {
-            string connectionstr = "data source = (localdb)\\MSSQLLocalDB; initial catalog = Bookstore; integrated security = true";
+            string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
             con = new SqlConnection(connectionstr);
         }
         public UserRepository(IConfiguration configuration)
@@ -174,7 +173,7 @@ namespace BookstoreRepository.BookstoreRepository
         public string GenerateSecurity(string email, int userId)
         {
             var tokenhandler = new JwtSecurityTokenHandler();
-            var key1 = Encoding.ASCII.GetBytes(this.configuration[("JWT:Key")]);
+            var key = Encoding.ASCII.GetBytes(this.configuration[("JWT:Key")]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
@@ -183,7 +182,7 @@ namespace BookstoreRepository.BookstoreRepository
                     new Claim("Id",userId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenhandler.CreateToken(tokenDescriptor);
