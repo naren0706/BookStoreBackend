@@ -1,16 +1,19 @@
 ﻿using BookstoreManager.IBookstoreManager;
 using BookstoreModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace BookstoreApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : Controller
     {
         public readonly ICartManager cartManager;
+        public int userId;
         public CartController(ICartManager cartManager)
         {
             this.cartManager = cartManager;
@@ -22,6 +25,7 @@ namespace BookstoreApplication.Controllers
             try
             {
                 var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+
                 var result = this.cartManager.AddToCart(userId,bookId);
                 if (result != null)
                 {

@@ -11,7 +11,7 @@ namespace BookstoreRepository.IBookstoreRepository
         public Book AdddBook(Book objBook);
         public bool DeleteBook(string bookId);
         public List<Book> GetAllBook();
-        public bool UpdateBook(Book ObjBook);
+        public Book UpdateBook(Book ObjBook);
         public bool UploadImage(IFormFile file, string bookId);
     }
 }

@@ -1,28 +1,37 @@
 ﻿using BookstoreManager.IBookstoreManager;
 using BookstoreModel;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 
 namespace BookstoreApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class BookController : Controller
+    public class CustomerDetailsController : Controller
     {
-        public readonly IBookManager bookManager;
-        public BookController(IBookManager userManager)
-        {
-            this.bookManager = userManager;
-        }
+        public readonly ICustomerDetailsManager customerDetailsManager;
+        private int userId;
 
+        public CustomerDetailsController(ICustomerDetailsManager CustomerDetailsManager)
+        {
+            this.customerDetailsManager = CustomerDetailsManager;
+            this.userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+        }
+        //          1. AddAddress
+        //          2. UpdateAddress
+        //          3. DeleteAddress
+        //          4. GetAllAddressByUserId
         [HttpPost]
-        [Route("addBook")]
-        public ActionResult AddBook(Book objBook)
+        [Route("AddAddress")]
+        public ActionResult AddAddress()
         {
             try
             {
-                var result = this.bookManager.AddBook(objBook);
+                var result = this.customerDetailsManager.AddAddress(this.userId);
+                //var result = 1;
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
@@ -34,13 +43,14 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpGet]
-        [Route("GetAllBook")]
-        public ActionResult GetAllBook()
+        [HttpPost]
+        [Route("UpdateAddress")]
+        public ActionResult UpdateAddress(int customerId)
         {
             try
             {
-                var result = this.bookManager.GetAllBook();
+                var result = this.customerDetailsManager.UpdateAddress(this.userId,customerId);
+                //var result = 1;
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
@@ -53,33 +63,16 @@ namespace BookstoreApplication.Controllers
             }
         }
         [HttpPost]
-        [Route("UpdateBook")]
-        public ActionResult UpdateBook(Book updateBook)
+        [Route("DeleteAddress")]
+        public ActionResult DeleteAddress(int customerId)
         {
             try
             {
-                var result = this.bookManager.UpdateBook(updateBook);
-                if (result!=null)
+                var result = this.customerDetailsManager.DeleteAddress(customerId);
+                //var result = 1;
+                if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Book updated Successful", data = result });
-                }
-                return this.BadRequest(new { Status = false, Message = "Book Not Updated" });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-        [HttpPost]
-        [Route("DeleteBook")]
-        public ActionResult DeleteBook(string bookId)
-        {
-            try
-            {
-                var result = this.bookManager.DeleteBook(bookId);
-                if (result)
-                {
-                    return this.Ok(new { Status = true, Message = "Book deleted Successful"});
+                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
                 }
                 return this.BadRequest(new { Status = false, Message = "Not found" });
             }
@@ -88,14 +81,14 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-
         [HttpPost]
-        [Route("UploadImage")]
-        public ActionResult AddBook(IFormFile file,string bookId)
+        [Route("GetAllAddressByUserId")]
+        public ActionResult GetAllAddressByUserId()
         {
             try
             {
-                var result = this.bookManager.UploadImage(file,bookId);
+                var result = this.customerDetailsManager.GetAllAddressByUserId(this.userId);
+                //var result = 1;
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });

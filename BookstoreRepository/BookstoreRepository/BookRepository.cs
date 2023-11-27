@@ -134,7 +134,7 @@ namespace BookstoreRepository.BookstoreRepository
             }
         }
 
-        public bool UpdateBook(Book objBook)
+        public Book UpdateBook(Book objBook)
         {
             try
             {
@@ -150,13 +150,13 @@ namespace BookstoreRepository.BookstoreRepository
                 com.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
                 con.Open();
                 var i = com.ExecuteScalar();
-                return true; 
+                con.Close();
+                return objBook;
             }
             catch (Exception ex)
             {
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
-                return false;
             }
         }
         public bool UploadImage(IFormFile file, string bookId)

@@ -33,7 +33,7 @@ namespace BookstoreManager
             return result;
         }
 
-        public bool UpdateBook(Book ObjBook)
+        public Book UpdateBook(Book ObjBook)
         {
             var result = this.bookstoreRepository.UpdateBook(ObjBook);
             return result;

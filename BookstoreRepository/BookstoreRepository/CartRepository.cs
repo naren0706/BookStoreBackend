@@ -35,15 +35,18 @@ namespace BookstoreRepository.BookstoreRepository
                 ObjSqlCommand.Parameters.AddWithValue("@userId", userId);
                 ObjSqlCommand.Parameters.AddWithValue("@bookId", bookId);
                 objSqlConnection.Open();
-                var i = ObjSqlCommand.ExecuteScalar();
+                var i = ObjSqlCommand.ExecuteNonQuery();
                 objSqlConnection.Close();
-                nlog.LogInfo("Cart added successfull");
-                return true;
+                if (i != 0)
+                {
+                    nlog.LogInfo("Cart added successfull");
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {
                 nlog.LogError("Unabe to add to cart due to " + ex.Message);
-                return false;
                 throw new Exception(ex.Message);
             }
         }
