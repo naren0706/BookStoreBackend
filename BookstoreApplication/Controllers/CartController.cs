@@ -27,7 +27,7 @@ namespace BookstoreApplication.Controllers
                 var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
 
                 var result = this.cartManager.AddToCart(userId,bookId);
-                if (result != null)
+                if (result!=null)
                 {
                     return this.Ok(new { Status = true, Message = "cart added Successful", data = result });
                 }
@@ -46,7 +46,7 @@ namespace BookstoreApplication.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
                 var result = this.cartManager.Removefromcart(userId, bookId);
-                if (result != null)
+                if (result)
                 {
                     return this.Ok(new { Status = true, Message = "Book removed from cart Successful", data = result });
                 }
@@ -57,7 +57,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateCart")]
         public ActionResult UpdateCart(string bookId,string updateValue)
         {
@@ -65,7 +65,7 @@ namespace BookstoreApplication.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
                 var result = this.cartManager.UpdateCart(userId, bookId, updateValue);
-                if (result != null)
+                if (result!=null)
                 {
                     return this.Ok(new { Status = true, Message = "Cart Updated Successful", data = result });
                 }

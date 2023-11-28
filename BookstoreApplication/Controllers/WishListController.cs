@@ -66,7 +66,7 @@ namespace BookstoreApplication.Controllers
             {
                 var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
                 var result = this.wishListManager.RemoveBookFromWishList(userId,bookId);
-                if (result != null)
+                if (result)
                 {
                     return this.Ok(new { Status = true, Message = "WishList removed successfully", data = result });
                 }

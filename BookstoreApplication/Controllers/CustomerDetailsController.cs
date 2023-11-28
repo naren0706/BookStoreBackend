@@ -13,28 +13,26 @@ namespace BookstoreApplication.Controllers
     public class CustomerDetailsController : Controller
     {
         public readonly ICustomerDetailsManager customerDetailsManager;
-        private int userId;
 
         public CustomerDetailsController(ICustomerDetailsManager CustomerDetailsManager)
         {
             this.customerDetailsManager = CustomerDetailsManager;
-            this.userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
         }
-        //          1. AddAddress
-        //          2. UpdateAddress
-        //          3. DeleteAddress
-        //          4. GetAllAddressByUserId
+//          1. AddAddress
+//          2. UpdateAddress
+//          3. DeleteAddress
+//          4. GetAllAddressByUserId
         [HttpPost]
         [Route("AddAddress")]
-        public ActionResult AddAddress()
+        public ActionResult AddAddress(CustomerDetails objCustomerDetails)
         {
             try
             {
-                var result = this.customerDetailsManager.AddAddress(this.userId);
-                //var result = 1;
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.customerDetailsManager.AddAddress(objCustomerDetails,userId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Address added Successful", data = result });
                 }
                 return this.BadRequest(new { Status = false, Message = "Not found" });
             }
@@ -45,12 +43,12 @@ namespace BookstoreApplication.Controllers
         }
         [HttpPost]
         [Route("UpdateAddress")]
-        public ActionResult UpdateAddress(int customerId)
+        public ActionResult UpdateAddress(CustomerDetails objCustomerDetails)
         {
             try
             {
-                var result = this.customerDetailsManager.UpdateAddress(this.userId,customerId);
-                //var result = 1;
+                objCustomerDetails.UserId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.customerDetailsManager.UpdateAddress(objCustomerDetails);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
@@ -68,11 +66,11 @@ namespace BookstoreApplication.Controllers
         {
             try
             {
-                var result = this.customerDetailsManager.DeleteAddress(customerId);
-                //var result = 1;
-                if (result != null)
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.customerDetailsManager.DeleteAddress(customerId,userId);
+                if (result)
                 {
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Address Deleted Successful", data = result });
                 }
                 return this.BadRequest(new { Status = false, Message = "Not found" });
             }
@@ -81,14 +79,14 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("GetAllAddressByUserId")]
         public ActionResult GetAllAddressByUserId()
         {
             try
             {
-                var result = this.customerDetailsManager.GetAllAddressByUserId(this.userId);
-                //var result = 1;
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.customerDetailsManager.GetAllAddressByUserId(userId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });

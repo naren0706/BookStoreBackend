@@ -52,6 +52,9 @@ namespace BookstoreApplication
             //cart
             services.AddScoped<ICartManager, CartManager>();
             services.AddScoped<ICartRepository, CartRepository>();
+            //CustomerDetails
+            services.AddScoped<ICustomerDetailsManager, CustomerDetailsManager>();
+            services.AddScoped<ICustomerDetailsRepository, CustomerDetailsRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookstore App", Version = "v1", Description = "Bookstore Applcation" });

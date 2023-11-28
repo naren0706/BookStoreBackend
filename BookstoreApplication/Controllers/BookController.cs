@@ -1,11 +1,13 @@
 ﻿using BookstoreManager.IBookstoreManager;
 using BookstoreModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
 namespace BookstoreApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : Controller
@@ -52,7 +54,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateBook")]
         public ActionResult UpdateBook(Book updateBook)
         {
@@ -70,7 +72,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("DeleteBook")]
         public ActionResult DeleteBook(string bookId)
         {
@@ -89,14 +91,14 @@ namespace BookstoreApplication.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("UploadImage")]
-        public ActionResult AddBook(IFormFile file,string bookId)
+        public ActionResult UploadImage(IFormFile file,string bookId)
         {
             try
             {
                 var result = this.bookManager.UploadImage(file,bookId);
-                if (result != null)
+                if (result != string.Empty)
                 {
                     return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
                 }
