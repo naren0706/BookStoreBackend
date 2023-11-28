@@ -16,27 +16,28 @@ namespace BookstoreManager.BookstoreManager
             this.customerDetailsRepository = customerDetailsRepository;
         }
 
-        public CustomerDetails AddAddress(int userId)
+        public CustomerDetails AddAddress(CustomerDetails objCustomerDetails, int userId)
         {
-            var result = this.customerDetailsRepository.AddAddress(userId);
+            var result = this.customerDetailsRepository.AddAddress(objCustomerDetails,userId);
             return result;
         }
 
-        public CustomerDetails DeleteAddress(int customerId)
+
+        public bool DeleteAddress(int customerId, int userId)
         {
-            var result = this.customerDetailsRepository.DeleteAddress(customerId);
+            var result = this.customerDetailsRepository.DeleteAddress(customerId,userId);
             return result;
         }
 
-        public CustomerDetails GetAllAddressByUserId(int userId)
+        public List<CustomerDetails> GetAllAddressByUserId(int userId)
         {
             var result = this.customerDetailsRepository.GetAllAddressByUserId(userId);
             return result;
         }
 
-        public CustomerDetails UpdateAddress(int userId, int customerId)
+        public CustomerDetails UpdateAddress(CustomerDetails objCustomerDetails)
         {
-            var result = this.customerDetailsRepository.UpdateAddress(userId,customerId);
+            var result = this.customerDetailsRepository.UpdateAddress(objCustomerDetails);
             return result;
         }
     }

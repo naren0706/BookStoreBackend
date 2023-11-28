@@ -14,12 +14,12 @@ namespace BookstoreRepository.BookstoreRepository
     public class WishListRepository : IWishListRepository
     {
         NlogOperation nlog = new NlogOperation();
-        private SqlConnection con;
+        private SqlConnection objSqlConnection;
         public readonly IConfiguration configuration;
         private void Connection()
         {
             string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
-            con = new SqlConnection(connectionstr);
+            objSqlConnection = new SqlConnection(connectionstr);
         }
         public WishListRepository(IConfiguration configuration)
         {
@@ -32,13 +32,13 @@ namespace BookstoreRepository.BookstoreRepository
             {
                 bool result;
                 Connection();
-                SqlCommand com = new SqlCommand("SP_AddToWIshList", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@userId", userId);
-                com.Parameters.AddWithValue("@bookId", bookId);
-                con.Open();
-                var i = com.ExecuteScalar();
-                SqlDataReader reader = com.ExecuteReader();
+                SqlCommand objSqlCommand = new SqlCommand("SP_AddToWIshList", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@userId", userId);
+                objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                objSqlConnection.Open();
+                var SqlValue= objSqlCommand.ExecuteScalar();
+                SqlDataReader reader = objSqlCommand.ExecuteReader();
                 if (reader.Read())
                 {
                     result = true;
@@ -71,7 +71,7 @@ namespace BookstoreRepository.BookstoreRepository
                     result = false;
                     nlog.LogError("book is not added to wishlist : \"");
                 }
-                con.Close();
+                objSqlConnection.Close();
                 if (!result)
                 {
                     return null;
@@ -90,12 +90,12 @@ namespace BookstoreRepository.BookstoreRepository
             try
             {
                 Connection();
-                SqlCommand com = new SqlCommand("SP_RemoveFromWishList", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@userId", userId);
-                com.Parameters.AddWithValue("@bookId", bookId);
-                con.Open();
-                var i = com.ExecuteScalar();
+                SqlCommand objSqlCommand = new SqlCommand("SP_RemoveFromWishList", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@userId", userId);
+                objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                objSqlConnection.Open();
+                var SqlValue= objSqlCommand.ExecuteScalar();
                 nlog.LogError("book is removed from wishlist : ");
                 return true;
             }
@@ -112,16 +112,16 @@ namespace BookstoreRepository.BookstoreRepository
             {
                 Connection();
                 List<WishList> ListwishList = new List<WishList>();
-                SqlCommand com = new SqlCommand("SP_GetWishList", con);
-                com.Parameters.AddWithValue("@userID", userId);
-                com.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(com);
-                DataTable dt = new DataTable();
-                con.Open();
-                da.Fill(dt);
-                con.Close();
+                SqlCommand objSqlCommand = new SqlCommand("SP_GetWishList", objSqlConnection);
+                objSqlCommand.Parameters.AddWithValue("@userID", userId);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
+                DataTable objDataTable = new DataTable();
+                objSqlConnection.Open();
+                objSqlDataAdapter.Fill(objDataTable);
+                objSqlConnection.Close();
                 WishList objwishList;
-                foreach (DataRow reader in dt.Rows)
+                foreach (DataRow reader in objDataTable.Rows)
                 {
                     objwishList = new WishList();
                     objwishList.BookId = Convert.ToInt32(reader["BookId"]);

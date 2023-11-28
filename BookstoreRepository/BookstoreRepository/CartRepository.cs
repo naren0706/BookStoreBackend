@@ -25,7 +25,7 @@ namespace BookstoreRepository.BookstoreRepository
             objSqlConnection = new SqlConnection(connectionstr);
         }
 
-        public bool AddToCart(int userId, string bookId)
+        public Cart AddToCart(int userId, string bookId)
         {
             try
             {
@@ -34,21 +34,48 @@ namespace BookstoreRepository.BookstoreRepository
                 ObjSqlCommand.CommandType = CommandType.StoredProcedure;
                 ObjSqlCommand.Parameters.AddWithValue("@userId", userId);
                 ObjSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                Cart objCart = new Cart();
                 objSqlConnection.Open();
-                var i = ObjSqlCommand.ExecuteNonQuery();
-                objSqlConnection.Close();
-                if (i != 0)
+                SqlDataReader reader = ObjSqlCommand.ExecuteReader();
+                if (reader.Read())
                 {
-                    nlog.LogInfo("Cart added successfull");
-                    return true;
+                    objCart = new Cart();
+                    objCart.BookId = Convert.ToInt32(reader["BookId"]);
+                    objCart.Book = new Book()
+                    {
+                        BookId = Convert.ToInt32(reader["BookId"]),
+                        BookName = Convert.ToString(reader["bookName"]),
+                        BookDescription = Convert.ToString(reader["BookDescription"]),
+                        BookAuthor = Convert.ToString(reader["BookAuthor"]),
+                        BookImage = Convert.ToString(reader["BookImage"]),
+                        BookCount = Convert.ToInt32(reader["BookCount"]),
+                        BookPrize = Convert.ToInt32(reader["BookPrize"]),
+                        Rating = Convert.ToInt32(reader["Rating"]),
+                        IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
+                    };
+                    objCart.UserId = Convert.ToInt32(reader["userId"]);
+                    objCart.User = new User
+                    {
+                        UserId = (int)reader["userId"],
+                        FullName = (string)reader["FullName"],
+                        Email = (string)reader["email"],
+                        Password = (string)reader["Password"],
+                        MobileNumber = (string)reader["MobileNumber"]
+                    };
+                    objCart.CartId = Convert.ToInt32(reader["CartId"]);
+                    objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                 }
-                return false;
+                objSqlConnection.Close();
+                nlog.LogError("Cart Added");
+
+                return objCart;
             }
             catch (Exception ex)
             {
                 nlog.LogError("Unabe to add to cart due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
         }
 
         public List<Cart> Getallccart(int userId)
@@ -60,13 +87,13 @@ namespace BookstoreRepository.BookstoreRepository
                 SqlCommand ObjSqlCommand = new SqlCommand("SP_GetAllCart", objSqlConnection);
                 ObjSqlCommand.Parameters.AddWithValue("@userID", userId);
                 ObjSqlCommand.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(ObjSqlCommand);
-                DataTable dt = new DataTable();
+                SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(ObjSqlCommand);
+                DataTable objDataAdapter = new DataTable();
                 objSqlConnection.Open();
-                da.Fill(dt);
+                objSqlDataAdapter.Fill(objDataAdapter);
                 objSqlConnection.Close();
                 Cart objCart;
-                foreach (DataRow reader in dt.Rows)
+                foreach (DataRow reader in objDataAdapter.Rows)
                 {
                     objCart = new Cart();
                     objCart.BookId = Convert.ToInt32(reader["BookId"]);
@@ -95,13 +122,16 @@ namespace BookstoreRepository.BookstoreRepository
                     objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                     ListCart.Add(objCart);
                 }
+                nlog.LogError("got all books of user"+ userId);
                 return ListCart;
             }
             catch (Exception ex)
             {
-                nlog.LogError("book added Unsuccessfull due to " + ex.Message);
+                nlog.LogError("get all books Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
 
         public bool Removefromcart(int userId, string bookId)
@@ -114,20 +144,27 @@ namespace BookstoreRepository.BookstoreRepository
                 ObjSqlCommand.Parameters.AddWithValue("@userId", userId);
                 ObjSqlCommand.Parameters.AddWithValue("@bookId", bookId);
                 objSqlConnection.Open();
-                var i = ObjSqlCommand.ExecuteScalar();
+                var SqlValue = ObjSqlCommand.ExecuteNonQuery();
                 objSqlConnection.Close();
-                nlog.LogInfo("User Registers successfull");
-                return true;
+                if(SqlValue!=0)
+                {
+                    nlog.LogInfo("Remove from cart successfull");
+                    return true;
+                }
+                nlog.LogInfo("Remove from cart unsuccessfull");
+                return false;
+
             }
             catch (Exception ex)
             {
                 nlog.LogError("User Registers successfull due to " + ex.Message);
-                return false;
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
 
-        public bool UpdateCart(int userId, string bookId,string updateValue)
+        public Cart UpdateCart(int userId, string bookId,string updateValue)
         {
             try
             {
@@ -137,20 +174,48 @@ namespace BookstoreRepository.BookstoreRepository
                 ObjSqlCommand.Parameters.AddWithValue("@userId", userId);
                 ObjSqlCommand.Parameters.AddWithValue("@bookId", bookId);
                 ObjSqlCommand.Parameters.AddWithValue("@Cartcount", updateValue);
+                Cart objCart = new Cart();
                 objSqlConnection.Open();
-                var i = ObjSqlCommand.ExecuteScalar();
+                SqlDataReader reader = ObjSqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    objCart = new Cart();
+                    objCart.BookId = Convert.ToInt32(reader["BookId"]);
+                    objCart.Book = new Book()
+                    {
+                        BookId = Convert.ToInt32(reader["BookId"]),
+                        BookName = Convert.ToString(reader["bookName"]),
+                        BookDescription = Convert.ToString(reader["BookDescription"]),
+                        BookAuthor = Convert.ToString(reader["BookAuthor"]),
+                        BookImage = Convert.ToString(reader["BookImage"]),
+                        BookCount = Convert.ToInt32(reader["BookCount"]),
+                        BookPrize = Convert.ToInt32(reader["BookPrize"]),
+                        Rating = Convert.ToInt32(reader["Rating"]),
+                        IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
+                    };
+                    objCart.UserId = Convert.ToInt32(reader["userId"]);
+                    objCart.User = new User
+                    {
+                        UserId = (int)reader["userId"],
+                        FullName = (string)reader["FullName"],
+                        Email = (string)reader["email"],
+                        Password = (string)reader["Password"],
+                        MobileNumber = (string)reader["MobileNumber"]
+                    };
+                    objCart.CartId = Convert.ToInt32(reader["CartId"]);
+                    objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
+                }
                 objSqlConnection.Close();
-                nlog.LogInfo("User Registers successfull");
-                return true;
+                nlog.LogInfo("cart updated successfull");
+
+                return objCart;
             }
             catch (Exception ex)
             {
-                nlog.LogError("User Registers successfull due to " + ex.Message);
-                return false;
+                nlog.LogError("User updated unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
         }
-
-        
     }
 }

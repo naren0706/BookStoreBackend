@@ -7,9 +7,9 @@ namespace BookstoreRepository.IBookstoreRepository
 {
     public interface ICustomerDetailsRepository
     {
-        CustomerDetails AddAddress(int userId);
-        CustomerDetails DeleteAddress(int customerId);
-        CustomerDetails GetAllAddressByUserId(int userId);
-        CustomerDetails UpdateAddress(int userId, int customerId);
+        CustomerDetails AddAddress(CustomerDetails objCustomerDetails, int userId);
+        bool DeleteAddress(int customerId, int userId);
+        List<CustomerDetails> GetAllAddressByUserId(int userId);
+        CustomerDetails UpdateAddress(CustomerDetails objCustomerDetails);
     }
 }

@@ -7,9 +7,9 @@ namespace BookstoreManager.IBookstoreManager
 {
     public interface ICustomerDetailsManager
     {
-        public CustomerDetails AddAddress(int userId);
-        public CustomerDetails DeleteAddress(int customerId);
-        public CustomerDetails GetAllAddressByUserId(int userId);
-        public CustomerDetails UpdateAddress(int userId, int customerId);
+        public CustomerDetails AddAddress(CustomerDetails objCustomerDetails,int userId);
+        public bool DeleteAddress(int customerId, int userId);
+        public List<CustomerDetails> GetAllAddressByUserId(int userId);
+        public CustomerDetails UpdateAddress( CustomerDetails objCustomerDetails);
     }
 }

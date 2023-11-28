@@ -18,59 +18,54 @@ namespace BookstoreRepository.BookstoreRepository
     public class BookRepository : IBookRepository
     {
         NlogOperation nlog = new NlogOperation();
-        private SqlConnection con;
+        private SqlConnection objSqlConnection;
         public readonly IConfiguration configuration;
         private void Connection()
         {
             string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
-            con = new SqlConnection(connectionstr);
+            objSqlConnection = new SqlConnection(connectionstr);
         }
         public BookRepository(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
-        
-
         public Book AdddBook(Book objBook)
         {
             try
             {
-                bool result;
                 Connection();
                 string noimageurl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIYXRat2l2itCOItlYpY5cR-ebHyygIuGyAxDYPLhCBLE-IpTenmRu5quH-OiSPPtSKno&usqp=CAU";
-                SqlCommand com = new SqlCommand("SP_AddBooks", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@bookName", objBook.BookName);
-                com.Parameters.AddWithValue("@bookAuthor", objBook.BookAuthor);
-                com.Parameters.AddWithValue("@bookDescription", objBook.BookDescription);
-                com.Parameters.AddWithValue("@bookImage", noimageurl);
-                com.Parameters.AddWithValue("@bookCount", objBook.BookCount);
-                com.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
-                con.Open();
-                var i = com.ExecuteScalar();
-                SqlDataReader reader = com.ExecuteReader();
+                SqlCommand objSqlCommand = new SqlCommand("SP_AddBooks", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@bookName", objBook.BookName);
+                objSqlCommand.Parameters.AddWithValue("@bookAuthor", objBook.BookAuthor);
+                objSqlCommand.Parameters.AddWithValue("@bookDescription", objBook.BookDescription);
+                objSqlCommand.Parameters.AddWithValue("@bookImage", noimageurl);
+                objSqlCommand.Parameters.AddWithValue("@bookCount", objBook.BookCount);
+                objSqlCommand.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
+                objSqlConnection.Open();
+                var SqlValue = objSqlCommand.ExecuteScalar();
+                SqlDataReader reader = objSqlCommand.ExecuteReader();
                 if (reader.Read())
                 {
                     objBook.BookId= Convert.ToInt32(reader["BookId"]);
                     nlog.LogInfo("book added successfull for " + objBook.BookName);
-                    result = true;
                 }
                 else
                 {
-                    result = false;
-                    nlog.LogError("book added Unsuccessfull");
+                    nlog.LogInfo("book added Unsuccessfull for " + objBook.BookName);
                 }
-                con.Close();
-                if(!result)
-                {
-                    return null;
-                }
+                objSqlConnection.Close();
                 return objBook;
             }
             catch (Exception ex)
             {
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
+            }
+            finally
+            {
+                objSqlConnection.Close();
             }
         }
 
@@ -80,15 +75,14 @@ namespace BookstoreRepository.BookstoreRepository
             {
                 Connection();
                 List<Book> ObjListBook = new List<Book>();
-                SqlCommand com = new SqlCommand("SP_GetAllBooks", con);
+                SqlCommand com = new SqlCommand("SP_GetAllBooks", objSqlConnection);
                 com.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(com);
-                DataTable dt = new DataTable();
-                con.Open();
-                da.Fill(dt);
-                con.Close();
-                //bookname,BookDescription,BookAuthor,BookImage,BookCount,BookPrize,Rating
-                foreach (DataRow dr in dt.Rows)
+                SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(com);
+                DataTable objDataTable = new DataTable();
+                objSqlConnection.Open();
+                objSqlDataAdapter.Fill(objDataTable);
+                objSqlConnection.Close();
+                foreach (DataRow dr in objDataTable.Rows)
                 {
                     ObjListBook.Add(
                     new Book
@@ -111,6 +105,10 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally
+            {
+                objSqlConnection.Close();
+            }
         }
 
         public bool DeleteBook(string bookId)
@@ -118,19 +116,27 @@ namespace BookstoreRepository.BookstoreRepository
             try
             {
                 Connection();
-                SqlCommand com = new SqlCommand("SP_DeleteBook", con);
-                com.Parameters.AddWithValue("@bookId", bookId);
-                com.CommandType = CommandType.StoredProcedure;
-                con.Open();
-                var i = com.ExecuteScalar();
-                con.Close();
-                return true;
+                SqlCommand objSqlCommand = new SqlCommand("SP_DeleteBook", objSqlConnection);
+                objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlConnection.Open();
+                var SqlValue = objSqlCommand.ExecuteNonQuery();
+                objSqlConnection.Close();
+                if(SqlValue!=0)
+                {
+                    nlog.LogError("book deleted successfull ");
+                    return true;
+                }
+                nlog.LogError("book deleted Unsuccessfull ");
+                return false;
             }
             catch (Exception ex)
             {
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
-                return false;
+            }
+            finally{
+                objSqlConnection.Close();
             }
         }
 
@@ -139,33 +145,37 @@ namespace BookstoreRepository.BookstoreRepository
             try
             {
                 Connection();
-                SqlCommand com = new SqlCommand("SP_UpdateBook", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@bookId", objBook.BookId);
-                com.Parameters.AddWithValue("@bookName", objBook.BookName);
-                com.Parameters.AddWithValue("@bookAuthor", objBook.BookAuthor);
-                com.Parameters.AddWithValue("@bookDescription", objBook.BookDescription);
-                com.Parameters.AddWithValue("@bookImage", objBook.BookImage);
-                com.Parameters.AddWithValue("@bookCount", objBook.BookCount);
-                com.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
-                con.Open();
-                var i = com.ExecuteScalar();
-                con.Close();
+                SqlCommand objSqlCommand = new SqlCommand("SP_UpdateBook", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@bookId", objBook.BookId);
+                objSqlCommand.Parameters.AddWithValue("@bookName", objBook.BookName);
+                objSqlCommand.Parameters.AddWithValue("@bookAuthor", objBook.BookAuthor);
+                objSqlCommand.Parameters.AddWithValue("@bookDescription", objBook.BookDescription);
+                objSqlCommand.Parameters.AddWithValue("@bookImage", objBook.BookImage);
+                objSqlCommand.Parameters.AddWithValue("@bookCount", objBook.BookCount);
+                objSqlCommand.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
+                objSqlConnection.Open();
+                var SqlValue = objSqlCommand.ExecuteScalar();
+                objSqlConnection.Close();
+                nlog.LogError("book updated successfull");
                 return objBook;
             }
             catch (Exception ex)
             {
-                nlog.LogError("book added Unsuccessfull due to " + ex.Message);
+                nlog.LogError("book updated Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
         }
-        public bool UploadImage(IFormFile file, string bookId)
+
+        [Obsolete]
+        public string UploadImage(IFormFile file, string bookId)
         {
             try
             {
                 if (file == null)
                 {
-                    return false;
+                    return string.Empty;
                 }
                 var stream = file.OpenReadStream();
                 var name = file.FileName;
@@ -179,30 +189,35 @@ namespace BookstoreRepository.BookstoreRepository
                 cloudinary.Api.UrlImgUp.BuildUrl(String.Format("{0}.{1}", uploadResult.PublicId, uploadResult.Format));
                 var cloudnaryfilelink = uploadResult.Uri.ToString();
                 UpdateLinkToSql(cloudnaryfilelink, bookId);
-                return true;
+                return cloudnaryfilelink;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
         public void UpdateLinkToSql(string cloudnaryfilelink, string bookId)
         {
             try
             {
                 Connection();
-                SqlCommand com = new SqlCommand("SP_UploadImage", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@bookId", bookId);
-                com.Parameters.AddWithValue("@fileLink", cloudnaryfilelink);
-                con.Open();
-                var i = com.ExecuteScalar();
+                SqlCommand objSqlCommand = new SqlCommand("SP_UploadImage", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                objSqlCommand.Parameters.AddWithValue("@fileLink", cloudnaryfilelink);
+                objSqlConnection.Open();
+                nlog.LogError("image added successfull due to ");
+                var SqlValue = objSqlCommand.ExecuteScalar();
+                objSqlConnection.Close();
             }
             catch (Exception ex)
             {
                 nlog.LogError("image added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
+            }
+            finally
+            {
+                objSqlConnection.Close();
             }
         }
     }

@@ -14,7 +14,7 @@ namespace BookstoreManager.BookstoreManager
         {
             this.cartRepository = cartRepository;
         }
-        public bool AddToCart(int userId, string bookId)
+        public Cart AddToCart(int userId, string bookId)
         {
             var result = this.cartRepository.AddToCart(userId, bookId);
             return result;
@@ -32,7 +32,7 @@ namespace BookstoreManager.BookstoreManager
             return result;
         }
 
-        public bool UpdateCart(int userId, string bookId, string updateValue)
+        public Cart UpdateCart(int userId, string bookId, string updateValue)
         {
             var result = this.cartRepository.UpdateCart(userId,bookId,updateValue);
             return result;

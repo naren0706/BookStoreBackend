@@ -19,12 +19,12 @@ namespace BookstoreRepository.BookstoreRepository
     public class UserRepository:IUserRepository
     {
         NlogOperation nlog = new NlogOperation();
-        private SqlConnection con;
+        private SqlConnection objSqlConnection;
         public readonly IConfiguration configuration;
         private void Connection()
         {
             string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
-            con = new SqlConnection(connectionstr);
+            objSqlConnection = new SqlConnection(connectionstr);
         }
         public UserRepository(IConfiguration configuration)
         {
@@ -36,15 +36,15 @@ namespace BookstoreRepository.BookstoreRepository
             {
                 User objUser = new User();
                 Connection();
-                SqlCommand com = new SqlCommand("SP_RegisterUser", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@fullName", ObjUser.FullName);
-                com.Parameters.AddWithValue("@email", ObjUser.Email);
-                com.Parameters.AddWithValue("@password", EncryptPassword(ObjUser.Password));
-                com.Parameters.AddWithValue("@mobileNumber", ObjUser.MobileNumber);
-                con.Open();
-                var i = com.ExecuteScalar();
-                SqlDataReader reader = com.ExecuteReader();
+                SqlCommand objSqlCommand = new SqlCommand("SP_RegisterUser", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@fullName", ObjUser.FullName);
+                objSqlCommand.Parameters.AddWithValue("@email", ObjUser.Email);
+                objSqlCommand.Parameters.AddWithValue("@password", EncryptPassword(ObjUser.Password));
+                objSqlCommand.Parameters.AddWithValue("@mobileNumber", ObjUser.MobileNumber);
+                objSqlConnection.Open();
+                var SqlValue= objSqlCommand.ExecuteScalar();
+                SqlDataReader reader = objSqlCommand.ExecuteReader();
 
                 if (reader.Read())
                 {
@@ -57,7 +57,7 @@ namespace BookstoreRepository.BookstoreRepository
                         MobileNumber = (string)reader["MobileNumber"]
                     };
                 }
-                con.Close();
+                objSqlConnection.Close();
                 nlog.LogInfo("User Registers successfull");
                 return objUser;
             }
@@ -75,12 +75,12 @@ namespace BookstoreRepository.BookstoreRepository
                 string token = "";
                 User objUser = new User();
                 Connection();
-                SqlCommand com = new SqlCommand("SP_LoginUser", con);
+                SqlCommand com = new SqlCommand("SP_LoginUser", objSqlConnection);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@email", email);
                 com.Parameters.AddWithValue("@password", EncryptPassword(password));
-                con.Open();
-                var i = com.ExecuteScalar();
+                objSqlConnection.Open();
+                var SqlValue= com.ExecuteScalar();
                 SqlDataReader reader = com.ExecuteReader();
 
                 if (reader.Read())
@@ -95,7 +95,7 @@ namespace BookstoreRepository.BookstoreRepository
                     };
                     token = GenerateSecurity(objUser.Email, objUser.UserId);
                 }
-                con.Close();
+                objSqlConnection.Close();
                 nlog.LogInfo("User login successfull for "+objUser.Email);
                 return token;
 
@@ -113,12 +113,12 @@ namespace BookstoreRepository.BookstoreRepository
                 string token = "";
                 User objUser = new User();
                 Connection();
-                SqlCommand com = new SqlCommand("SP_ForgotPassword", con);
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@email", Email);
-                con.Open();
-                var i = com.ExecuteScalar();
-                SqlDataReader reader = com.ExecuteReader();
+                SqlCommand objSqlCommand = new SqlCommand("SP_ForgotPassword", objSqlConnection);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlCommand.Parameters.AddWithValue("@email", Email);
+                objSqlConnection.Open();
+                var SqlValue= objSqlCommand.ExecuteScalar();
+                SqlDataReader reader = objSqlCommand.ExecuteReader();
 
                 if (reader.Read())
                 {
@@ -132,7 +132,7 @@ namespace BookstoreRepository.BookstoreRepository
                     msmq.sendData2Queue(token, Email);
                     return true;
                 }
-                con.Close();
+                objSqlConnection.Close();
                 nlog.LogInfo("ForgetPassword successfull for " + objUser.Email);
                 return false;
             }
@@ -147,16 +147,15 @@ namespace BookstoreRepository.BookstoreRepository
             bool result = false;
             try
             {
-                string token = "";
                 User objUser = new User();
                 Connection();
-                SqlCommand com = new SqlCommand("SP_ResetPassword", con);
+                SqlCommand com = new SqlCommand("SP_ResetPassword", objSqlConnection);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@email", email);
                 com.Parameters.AddWithValue("@password", EncryptPassword(password));
-                con.Open();
-                var i = com.ExecuteScalar();
-                con.Close();
+                objSqlConnection.Open();
+                var SqlValue= com.ExecuteScalar();
+                objSqlConnection.Close();
                 result= true;
                 nlog.LogInfo("ResetPassword successfull for " + objUser.Email);
             }
@@ -166,6 +165,10 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("User login ResetPassword due to " + ex.Message);
                 throw new Exception(ex.Message);
 
+            }
+            finally
+            {
+                objSqlConnection.Close();
             }
             return result;
 

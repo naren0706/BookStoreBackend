@@ -39,7 +39,7 @@ namespace BookstoreManager
             return result;
         }
 
-        public bool UploadImage(IFormFile file, string bookId)
+        public string UploadImage(IFormFile file, string bookId)
         {
             var result = this.bookstoreRepository.UploadImage(file,bookId);
             return result;
