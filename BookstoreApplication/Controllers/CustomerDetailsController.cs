@@ -46,7 +46,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateAddress")]
         public ActionResult UpdateAddress(CustomerDetails objCustomerDetails)
         {
@@ -68,7 +68,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("DeleteAddress")]
         public ActionResult DeleteAddress(int customerId)
         {

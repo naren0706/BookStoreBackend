@@ -43,7 +43,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Route("GetAllWishListBooks")]
         public ActionResult GetAllWishListBooks()
         {
@@ -65,7 +65,7 @@ namespace BookstoreApplication.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-        [HttpPost]
+        [HttpDelete]
         [Route("RemoveBookFromWishList")]
         public ActionResult RemoveBookFromWishList(string bookId)
         {

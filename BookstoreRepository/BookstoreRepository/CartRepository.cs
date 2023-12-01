@@ -65,6 +65,10 @@ namespace BookstoreRepository.BookstoreRepository
                     objCart.CartId = Convert.ToInt32(reader["CartId"]);
                     objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                 }
+                else
+                {
+                    throw new Exception("Book is already in cart");
+                }
                 objSqlConnection.Close();
                 nlog.LogDebug("Cart Added");
 

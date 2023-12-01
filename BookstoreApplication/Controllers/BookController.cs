@@ -66,7 +66,6 @@ namespace BookstoreApplication.Controllers
         [HttpPut]
         [Route("UpdateBook")]
         [Authorize(Roles = "Admin")]
-
         public ActionResult UpdateBook(Book updateBook)
         {
             try
@@ -89,7 +88,6 @@ namespace BookstoreApplication.Controllers
         [HttpDelete]
         [Route("DeleteBook")]
         [Authorize(Roles = "Admin")]
-
         public ActionResult DeleteBook(string bookId)
         {
             try
@@ -113,7 +111,6 @@ namespace BookstoreApplication.Controllers
         [HttpPut]
         [Route("UploadImage")]
         [Authorize(Roles = "Admin")]
-
         public ActionResult UploadImage(IFormFile file,string bookId)
         {
             try

@@ -71,3 +71,7 @@ The statement has been terminated.
 2023-12-01 17:04:45.9560|INFO|NlogImplementation.NlogOperation|user login successfully
 2023-12-01 17:05:22.3831|DEBUG|NlogImplementation.NlogOperation|book added successfull for nalankilli
 2023-12-01 17:05:22.3831|INFO|NlogImplementation.NlogOperation|book added Successfully
+2023-12-01 19:59:03.0068|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to The DELETE statement conflicted with the REFERENCE constraint "FK__TBL_Cart__BookId__04E4BC85". The conflict occurred in database "Bookstore", table "dbo.TBL_Cart", column 'BookId'.
+The statement has been terminated.
+2023-12-01 19:59:03.3013|ERROR|NlogImplementation.NlogOperation|book not Deleted due toThe DELETE statement conflicted with the REFERENCE constraint "FK__TBL_Cart__BookId__04E4BC85". The conflict occurred in database "Bookstore", table "dbo.TBL_Cart", column 'BookId'.
+The statement has been terminated.

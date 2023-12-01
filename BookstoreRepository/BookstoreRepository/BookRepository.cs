@@ -13,6 +13,9 @@ using System.Data.SqlClient;
 using System.Security.Principal;
 using System.Text;
 
+
+//Book(1),wishlish,cart,summary
+
 namespace BookstoreRepository.BookstoreRepository
 {
     public class BookRepository : IBookRepository
