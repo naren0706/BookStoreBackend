@@ -42,7 +42,6 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlCommand.Parameters.AddWithValue("@TypeId", objCustomerDetails.TypeId);
 
                 objSqlConnection.Open();
-                var SqlValue= objSqlCommand.ExecuteScalar();
                 SqlDataReader reader = objSqlCommand.ExecuteReader();
                 if (reader.Read())
                 {
@@ -61,11 +60,11 @@ namespace BookstoreRepository.BookstoreRepository
                         Password = (string)reader["Password"],
                         MobileNumber = (string)reader["MobileNumber"]
                     };
-                    nlog.LogInfo("address added successfull for " + objCustomerDetails.CustomerID);
+                    nlog.LogDebug("address added successfull for " + objCustomerDetails.CustomerID);
                 }
                 else
                 {
-                    nlog.LogError("address added Unsuccessfull");
+                    nlog.LogDebug("address added Unsuccessfull");
                 }
                 objSqlConnection.Close();
                 
@@ -96,10 +95,10 @@ namespace BookstoreRepository.BookstoreRepository
                 var SqlValue= objSqlCommand.ExecuteNonQuery();
                 if (SqlValue != 0)
                 {
-                    nlog.LogError("address deleted successfull");
+                    nlog.LogDebug("address deleted successfull");
                     return true;
                 }
-                nlog.LogError("address deleted unsuccessfull");
+                nlog.LogDebug("address deleted unsuccessfull");
                 return false;
                
             }
@@ -157,7 +156,7 @@ namespace BookstoreRepository.BookstoreRepository
                         },
 
                     });
-                    nlog.LogError("get all Address  is sccessfull for user id "+ userId);
+                    nlog.LogDebug("get all Address  is sccessfull for user id "+ userId);
 
                 }
                 return ObjListCustomerDetails;
@@ -208,7 +207,7 @@ namespace BookstoreRepository.BookstoreRepository
                         Password = (string)reader["Password"],
                         MobileNumber = (string)reader["MobileNumber"]
                     };
-                    nlog.LogInfo("book added successfull for " + objCustomerDetails.CustomerID);
+                    nlog.LogDebug("book added successfull for " + objCustomerDetails.CustomerID);
                 }
                 else
                 {

@@ -44,16 +44,15 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlCommand.Parameters.AddWithValue("@bookCount", objBook.BookCount);
                 objSqlCommand.Parameters.AddWithValue("@bookPrize", objBook.BookPrize);
                 objSqlConnection.Open();
-                var SqlValue = objSqlCommand.ExecuteScalar();
                 SqlDataReader reader = objSqlCommand.ExecuteReader();
                 if (reader.Read())
                 {
                     objBook.BookId= Convert.ToInt32(reader["BookId"]);
-                    nlog.LogInfo("book added successfull for " + objBook.BookName);
+                    nlog.LogDebug("book added successfull for " + objBook.BookName);
                 }
                 else
                 {
-                    nlog.LogInfo("book added Unsuccessfull for " + objBook.BookName);
+                    nlog.LogDebug("book added Unsuccessfull for " + objBook.BookName);
                 }
                 objSqlConnection.Close();
                 return objBook;
@@ -98,7 +97,9 @@ namespace BookstoreRepository.BookstoreRepository
                         IsAvailable = Convert.ToBoolean(dr["IsAvailable"])
                     });
                 }
+                nlog.LogDebug("book has been reterived successfully");
                 return ObjListBook;
+
             }
             catch (Exception ex)
             {
@@ -127,7 +128,7 @@ namespace BookstoreRepository.BookstoreRepository
                     nlog.LogError("book deleted successfull ");
                     return true;
                 }
-                nlog.LogError("book deleted Unsuccessfull ");
+                nlog.LogDebug("book deleted Unsuccessfull ");
                 return false;
             }
             catch (Exception ex)
@@ -157,7 +158,7 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlConnection.Open();
                 var SqlValue = objSqlCommand.ExecuteScalar();
                 objSqlConnection.Close();
-                nlog.LogError("book updated successfull");
+                nlog.LogDebug("book updated successfull");
                 return objBook;
             }
             catch (Exception ex)
@@ -206,7 +207,7 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
                 objSqlCommand.Parameters.AddWithValue("@fileLink", cloudnaryfilelink);
                 objSqlConnection.Open();
-                nlog.LogError("image added successfull due to ");
+                nlog.LogDebug("image added successfull due to ");
                 var SqlValue = objSqlCommand.ExecuteScalar();
                 objSqlConnection.Close();
             }

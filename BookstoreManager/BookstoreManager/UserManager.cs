@@ -1,6 +1,7 @@
 ﻿using BookstoreManager.IBookstoreManager;
 using BookstoreModel;
 using BookstoreRepository.IBookstoreRepository;
+using NlogImplementation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +11,8 @@ namespace BookstoreManager.BookstoreManager
 {
     public class UserManager : IUserManager
     {
-        public readonly IUserRepository userRepository;
+        public readonly IUserRepository userRepository; 
+        NlogOperation nlog = new NlogOperation();
         public UserManager(IUserRepository userRepository)
         {
             this.userRepository = userRepository;

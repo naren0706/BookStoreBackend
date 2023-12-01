@@ -55,6 +55,18 @@ namespace BookstoreApplication
             //CustomerDetails
             services.AddScoped<ICustomerDetailsManager, CustomerDetailsManager>();
             services.AddScoped<ICustomerDetailsRepository, CustomerDetailsRepository>();
+            //CustomerFeedBack
+            services.AddScoped<ICustomerFeedbackManager, CustomerFeedbackManager>();
+            services.AddScoped<ICustomerFeedbackRepository, CustomerFeedbackRepository>();
+            //orderplaced
+            services.AddScoped<IOrderPlacedManager, OrderPlacedManager>();
+            services.AddScoped<IOrderPlacedRepository, OrderPlacedRepository>();
+
+            //ordersummary
+            services.AddScoped<IOrderSummaryManager, OrderSummaryManager>();
+            services.AddScoped<IOrderSummaryRepository, OrderSummaryRepository>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookstore App", Version = "v1", Description = "Bookstore Applcation" });

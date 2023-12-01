@@ -69,7 +69,7 @@ namespace BookstoreRepository.BookstoreRepository
                 else
                 {
                     result = false;
-                    nlog.LogError("book is not added to wishlist : \"");
+                    nlog.LogDebug("book is not added to wishlist : \"");
                 }
                 objSqlConnection.Close();
                 if (!result)
@@ -83,6 +83,8 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("book is not added to wishlist due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
 
         public bool RemoveBookFromWishList(int userId, string bookId)
@@ -104,6 +106,8 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("book is not removed to wishlist due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
 
         public List<WishList> GetAllWishListBooks(int userId)
@@ -157,6 +161,7 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
         }
     }
 }

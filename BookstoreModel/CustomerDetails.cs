@@ -28,6 +28,5 @@ namespace BookstoreModel
         [Required(ErrorMessage = "UserId is null")]
         public int UserId { get; set; }
         public virtual User User { get; set; }
-
     }
 }

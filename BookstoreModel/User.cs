@@ -22,6 +22,8 @@ namespace BookstoreModel
         public string Password { get; set; }
         [Required(ErrorMessage = "Phone Number is null")]
         public string MobileNumber { get; set; }
+        public Boolean IsAdmin { get; set; } = false;
+
     }
 
 }

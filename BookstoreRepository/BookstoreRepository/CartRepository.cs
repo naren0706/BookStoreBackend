@@ -66,7 +66,7 @@ namespace BookstoreRepository.BookstoreRepository
                     objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                 }
                 objSqlConnection.Close();
-                nlog.LogError("Cart Added");
+                nlog.LogDebug("Cart Added");
 
                 return objCart;
             }
@@ -122,7 +122,7 @@ namespace BookstoreRepository.BookstoreRepository
                     objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                     ListCart.Add(objCart);
                 }
-                nlog.LogError("got all books of user"+ userId);
+                nlog.LogDebug("got all books of user"+ userId);
                 return ListCart;
             }
             catch (Exception ex)
@@ -148,10 +148,10 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlConnection.Close();
                 if(SqlValue!=0)
                 {
-                    nlog.LogInfo("Remove from cart successfull");
+                    nlog.LogDebug("Remove from cart successfull");
                     return true;
                 }
-                nlog.LogInfo("Remove from cart unsuccessfull");
+                nlog.LogDebug("Remove from cart unsuccessfull");
                 return false;
 
             }
@@ -206,7 +206,7 @@ namespace BookstoreRepository.BookstoreRepository
                     objCart.BookCount = Convert.ToInt32(reader["CartCount"]);
                 }
                 objSqlConnection.Close();
-                nlog.LogInfo("cart updated successfull");
+                nlog.LogDebug("cart updated successfull");
 
                 return objCart;
             }

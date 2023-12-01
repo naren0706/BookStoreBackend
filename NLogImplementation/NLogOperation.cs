@@ -18,5 +18,9 @@ namespace NlogImplementation
         {
             logger.Error(message);
         }
+        public void LogDebug(string message)
+        {
+            logger.Debug(message);
+        }
     }
 }

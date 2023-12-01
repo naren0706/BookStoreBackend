@@ -6,3 +6,6 @@ As Begin
 end
 
 
+DELETE FROM BookstoreUser WHERE userId=2;
+
+	select * from BookstoreUser where email='narenthrakishhore@gmaill.com' 

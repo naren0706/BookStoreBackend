@@ -1,20 +1,73 @@
-﻿2023-11-23 12:02:32.0478|INFO|NlogImplementation.NlogOperation|Registered successfully
-2023-11-24 11:10:18.1664|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_AddBooks' expects parameter '@bookDescription', which was not supplied.
-2023-11-24 11:12:12.6264|INFO|NlogImplementation.NlogOperation|book added successfull for qwerty
-2023-11-24 11:16:02.6190|INFO|NlogImplementation.NlogOperation|book added successfull for qwert
-2023-11-24 11:32:13.4315|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_GetAllBooks' expects parameter '@bookname', which was not supplied.
-2023-11-24 12:21:30.7225|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
-2023-11-24 12:22:45.6673|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Could not find stored procedure 'SP_DeleteBook'.
-2023-11-24 12:27:28.5319|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Procedure or function 'SP_DeleteBook' expects parameter '@bookId', which was not supplied.
-2023-11-24 14:47:02.3113|ERROR|NlogImplementation.NlogOperation|book is not added to wishlist : "
-2023-11-24 14:54:01.8786|INFO|NlogImplementation.NlogOperation|book added to wishlist : 1
-2023-11-24 15:51:18.3075|INFO|NlogImplementation.NlogOperation|User Registers successfull
-2023-11-24 15:51:42.1457|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
-2023-11-24 16:10:26.4009|INFO|NlogImplementation.NlogOperation|book added successfull for string
-2023-11-24 16:35:16.8515|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
-2023-11-24 16:38:46.0659|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
-2023-11-24 16:57:39.7508|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
-2023-11-24 17:09:04.3529|ERROR|NlogImplementation.NlogOperation|book is not added to wishlist due to The INSERT statement conflicted with the FOREIGN KEY constraint "FK__BooksWish__BookI__74AE54BC". The conflict occurred in database "Bookstore", table "dbo.BookstoreBooks", column 'BookId'.
+﻿2023-12-01 11:43:32.8659|INFO|NlogImplementation.NlogOperation|User Registers successfull
+2023-12-01 11:43:32.8834|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 11:43:48.0741|INFO|NlogImplementation.NlogOperation|User Registers successfull
+2023-12-01 11:43:48.0741|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 11:43:50.8713|INFO|NlogImplementation.NlogOperation|User Registers successfull
+2023-12-01 11:43:50.8713|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 11:44:56.0492|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 11:44:56.0492|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 11:45:52.3939|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 11:45:52.4129|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 11:47:52.1157|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 11:47:52.5977|ERROR|NlogImplementation.NlogOperation|User Registers successfull due to Email already exist
+2023-12-01 11:47:52.7348|INFO|NlogImplementation.NlogOperation|User Registration UnSuccessful due to Email already exist
+2023-12-01 13:20:06.2588|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 13:20:06.7750|ERROR|NlogImplementation.NlogOperation|User Registers successfull due to Email already exist
+2023-12-01 13:20:06.9549|INFO|NlogImplementation.NlogOperation|User Registration UnSuccessful due to Email already exist
+2023-12-01 13:21:29.6669|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 13:21:29.8651|ERROR|NlogImplementation.NlogOperation|User Registers successfull due to Email already exist
+2023-12-01 13:21:30.0624|INFO|NlogImplementation.NlogOperation|User Registration UnSuccessful due to Email already exist
+2023-12-01 13:22:19.2805|INFO|NlogImplementation.NlogOperation|Email already exist
+2023-12-01 13:22:19.4224|ERROR|NlogImplementation.NlogOperation|User Registers successfull due to Email already exist
+2023-12-01 13:22:19.5293|INFO|NlogImplementation.NlogOperation|User Registration UnSuccessful due to Email already exist
+2023-12-01 13:24:32.9444|INFO|NlogImplementation.NlogOperation|User Registers successfull
+2023-12-01 13:24:32.9783|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 13:29:24.9226|INFO|NlogImplementation.NlogOperation|stringUser Registers successfull
+2023-12-01 13:29:24.9502|INFO|NlogImplementation.NlogOperation|user registered successfully
+2023-12-01 13:31:49.8930|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-12-01 13:31:49.8930|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 13:32:11.6520|INFO|NlogImplementation.NlogOperation|User login successfull for 
+2023-12-01 13:32:11.6520|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 13:34:17.6369|INFO|NlogImplementation.NlogOperation|User login successfull for 
+2023-12-01 13:34:17.6369|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 13:34:24.3667|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-12-01 13:34:24.3667|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 13:34:45.8204|INFO|NlogImplementation.NlogOperation|Mail sent Successful
+2023-12-01 13:36:15.9727|INFO|NlogImplementation.NlogOperation|ResetPassword successfull for 
+2023-12-01 13:36:15.9733|INFO|NlogImplementation.NlogOperation|Password reset Successful
+2023-12-01 13:37:10.3168|INFO|NlogImplementation.NlogOperation|book added successfull for book1
+2023-12-01 13:38:27.8573|INFO|NlogImplementation.NlogOperation|book added successfull for naren1
+2023-12-01 13:41:04.0527|INFO|NlogImplementation.NlogOperation|book added successfull for naren2
+2023-12-01 13:41:40.6533|ERROR|NlogImplementation.NlogOperation|book updated successfull
+2023-12-01 13:52:38.0841|ERROR|NlogImplementation.NlogOperation|book deleted successfull 
+2023-12-01 13:53:22.7071|ERROR|NlogImplementation.NlogOperation|image added successfull due to 
+2023-12-01 13:56:09.5158|ERROR|NlogImplementation.NlogOperation|Unabe to add to cart due to Invalid object name 'OrderSummary'.
+2023-12-01 13:58:28.0775|ERROR|NlogImplementation.NlogOperation|Cart Added
+2023-12-01 14:00:42.8087|INFO|NlogImplementation.NlogOperation|cart updated successfull
+2023-12-01 14:07:17.8539|ERROR|NlogImplementation.NlogOperation|got all books of user1
+2023-12-01 14:08:24.8395|ERROR|NlogImplementation.NlogOperation|Cart Added
+2023-12-01 14:09:09.7852|ERROR|NlogImplementation.NlogOperation|User Registers successfull due to Invalid object name 'OrderSummary'.
+2023-12-01 14:10:03.9151|INFO|NlogImplementation.NlogOperation|Remove from cart successfull
+2023-12-01 14:13:43.6229|ERROR|NlogImplementation.NlogOperation|address added Unsuccessfull due to The INSERT statement conflicted with the FOREIGN KEY constraint "FK__CustomerD__typeI__3C34F16F". The conflict occurred in database "Bookstore", table "dbo.tbl_Type", column 'typeId'.
 The statement has been terminated.
-2023-11-24 17:10:42.1110|ERROR|NlogImplementation.NlogOperation|book is removed from wishlist : 
-2023-11-24 17:30:46.2291|INFO|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-12-01 14:18:59.9675|INFO|NlogImplementation.NlogOperation|address added successfull for 3
+2023-12-01 14:20:18.8525|INFO|NlogImplementation.NlogOperation|address added successfull for 5
+2023-12-01 14:23:31.7055|ERROR|NlogImplementation.NlogOperation|address deleted unsuccessfull
+2023-12-01 14:23:32.8062|ERROR|NlogImplementation.NlogOperation|address deleted unsuccessfull
+2023-12-01 14:23:45.4880|ERROR|NlogImplementation.NlogOperation|address deleted successfull
+2023-12-01 14:25:16.1377|ERROR|NlogImplementation.NlogOperation|get all Address  is sccessfull for user id 1
+2023-12-01 14:25:16.1377|ERROR|NlogImplementation.NlogOperation|get all Address  is sccessfull for user id 1
+2023-12-01 14:25:16.1377|ERROR|NlogImplementation.NlogOperation|get all Address  is sccessfull for user id 1
+2023-12-01 14:30:19.1399|INFO|NlogImplementation.NlogOperation|Feedback added successfull for string
+2023-12-01 14:37:22.9550|ERROR|NlogImplementation.NlogOperation|Order placed UnSuccessfully
+2023-12-01 14:39:21.1050|ERROR|NlogImplementation.NlogOperation|Order placed UnSuccessfully
+2023-12-01 14:49:23.3622|ERROR|NlogImplementation.NlogOperation|Order placed UnSuccessfully
+2023-12-01 14:49:38.7883|ERROR|NlogImplementation.NlogOperation|Cart Added
+2023-12-01 14:49:50.0208|ERROR|NlogImplementation.NlogOperation|Order placed Successfully
+2023-12-01 14:52:56.9158|ERROR|NlogImplementation.NlogOperation|User login Unsuccessfull due to Invalid object name 'OrderSummary'.
+2023-12-01 14:53:51.8190|INFO|NlogImplementation.NlogOperation|User login successfull for 3
+2023-12-01 14:56:23.1992|INFO|NlogImplementation.NlogOperation|User login successfull for 3
+2023-12-01 17:04:45.9432|DEBUG|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-12-01 17:04:45.9560|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 17:05:22.3831|DEBUG|NlogImplementation.NlogOperation|book added successfull for nalankilli
+2023-12-01 17:05:22.3831|INFO|NlogImplementation.NlogOperation|book added Successfully

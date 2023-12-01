@@ -43,7 +43,6 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlCommand.Parameters.AddWithValue("@password", EncryptPassword(ObjUser.Password));
                 objSqlCommand.Parameters.AddWithValue("@mobileNumber", ObjUser.MobileNumber);
                 objSqlConnection.Open();
-                var SqlValue= objSqlCommand.ExecuteScalar();
                 SqlDataReader reader = objSqlCommand.ExecuteReader();
 
                 if (reader.Read())
@@ -56,9 +55,14 @@ namespace BookstoreRepository.BookstoreRepository
                         Password = (string)reader["Password"],
                         MobileNumber = (string)reader["MobileNumber"]
                     };
+                    nlog.LogDebug(objUser.FullName + " User Registers successfull");
+                }
+                else
+                {
+                    nlog.LogDebug("Email already exist");
+                    throw new Exception("Email already exist");
                 }
                 objSqlConnection.Close();
-                nlog.LogInfo("User Registers successfull");
                 return objUser;
             }
             catch (Exception ex)
@@ -67,12 +71,14 @@ namespace BookstoreRepository.BookstoreRepository
 
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
         public string UserLogin(string email,string password)
         {
             try
             {
-                string token = "";
+                string token = String.Empty;
                 User objUser = new User();
                 Connection();
                 SqlCommand com = new SqlCommand("SP_LoginUser", objSqlConnection);
@@ -91,20 +97,22 @@ namespace BookstoreRepository.BookstoreRepository
                         FullName = (string)reader["FullName"],
                         Email = (string)reader["email"],
                         Password = (string)reader["Password"],
-                        MobileNumber = (string)reader["MobileNumber"]
+                        MobileNumber = (string)reader["MobileNumber"],
+                        IsAdmin = (bool)reader["IsAdmin"]
                     };
-                    token = GenerateSecurity(objUser.Email, objUser.UserId);
+                    token = GenerateSecurity(objUser.Email, objUser.UserId,objUser.IsAdmin);
                 }
                 objSqlConnection.Close();
-                nlog.LogInfo("User login successfull for "+objUser.Email);
+                nlog.LogDebug("User login successfull for "+objUser.Email);
                 return token;
-
             }
             catch (Exception ex)
             {
                 nlog.LogError("User login Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
         public bool ForgetPassword(string Email)
         {
@@ -125,15 +133,16 @@ namespace BookstoreRepository.BookstoreRepository
                     objUser = new User
                     {
                         UserId = (int)reader["userId"],
-                        Email = (string)reader["email"]                        
+                        Email = (string)reader["email"],
+                        IsAdmin = (bool)reader["IsAdmin"]
                     };
-                    token = GenerateSecurity(objUser.Email, objUser.UserId);
+                    token = GenerateSecurity(objUser.Email, objUser.UserId, objUser.IsAdmin);
                     MSMQ msmq = new MSMQ();
                     msmq.sendData2Queue(token, Email);
                     return true;
                 }
                 objSqlConnection.Close();
-                nlog.LogInfo("ForgetPassword successfull for " + objUser.Email);
+                nlog.LogDebug("ForgetPassword successfull for " + objUser.Email);
                 return false;
             }
             catch (Exception ex)
@@ -141,6 +150,8 @@ namespace BookstoreRepository.BookstoreRepository
                 nlog.LogError("User login Unsuccessfull due to " + ex.Message);
                 throw new Exception(ex.Message);
             }
+            finally { objSqlConnection.Close(); }
+
         }
         public bool ResetPassword(string email, string password)
         {
@@ -157,7 +168,7 @@ namespace BookstoreRepository.BookstoreRepository
                 var SqlValue= com.ExecuteScalar();
                 objSqlConnection.Close();
                 result= true;
-                nlog.LogInfo("ResetPassword successfull for " + objUser.Email);
+                nlog.LogDebug("ResetPassword successfull for " + objUser.Email);
             }
             catch (Exception ex)
             {
@@ -173,7 +184,7 @@ namespace BookstoreRepository.BookstoreRepository
             return result;
 
         }
-        public string GenerateSecurity(string email, int userId)
+        public string GenerateSecurity(string email, int userId,bool IsAdmin)
         {
             var tokenhandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(this.configuration[("JWT:Key")]);
@@ -182,7 +193,8 @@ namespace BookstoreRepository.BookstoreRepository
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, email),
-                    new Claim("UserId",userId.ToString())
+                    new Claim("UserId",userId.ToString()),
+                    new Claim(ClaimTypes.Role,IsAdmin?"Admin":"normal")
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

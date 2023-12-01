@@ -5,10 +5,13 @@ create procedure SP_RegisterUser(
 	@mobileNumber varchar(20)
 )
 As Begin
-	insert into BookstoreUser(FullName,email,password,MobileNumber) values(@fullName,@email,@password,@mobileNumber)    
-	select * from BookstoreUser where email=@email
+	IF NOT EXISTS(select * from BookstoreUser where email=@email)
+	begin
+		insert into BookstoreUser(FullName,email,password,MobileNumber) values(@fullName,@email,@password,@mobileNumber)    
+		select * from BookstoreUser where email=@email
+	end 
 end
 
 drop procedure SP_RegisterUser
 
-select*from BookstoreUser
+

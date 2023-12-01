@@ -11,3 +11,6 @@ IsAvailable bit not null,
 );
 
 drop table BookstoreBooks
+
+
+select * from BookstoreBooks

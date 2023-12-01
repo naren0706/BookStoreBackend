@@ -1,3 +1,5 @@
+
+use Bookstore
 create procedure SP_UpdateBook(
 	@bookId int,
 	@bookName varchar(50),
@@ -18,6 +20,8 @@ As Begin
 	BookCount=@bookCount,
 	BookPrize=@bookPrize
 	WHERE BookId=@bookId;
+
+	select * from BookstoreBooks where BookId=@bookId;
 End
 
 drop procedure SP_UpdateBook
