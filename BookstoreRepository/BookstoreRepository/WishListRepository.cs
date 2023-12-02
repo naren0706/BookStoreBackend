@@ -1,5 +1,6 @@
 ﻿using BookstoreModel;
 using BookstoreRepository.IBookstoreRepository;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using NlogImplementation;
 using System;
@@ -15,15 +16,18 @@ namespace BookstoreRepository.BookstoreRepository
     {
         NlogOperation nlog = new NlogOperation();
         private SqlConnection objSqlConnection;
-        public readonly IConfiguration configuration;
+        public readonly IConfiguration configuration; 
+        private readonly IDistributedCache distributedCache;
+
         private void Connection()
         {
             string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
             objSqlConnection = new SqlConnection(connectionstr);
         }
-        public WishListRepository(IConfiguration configuration)
+        public WishListRepository(IConfiguration configuration, IDistributedCache distributedCache)
         {
             this.configuration = configuration;
+            this.distributedCache = distributedCache;
         }
         public WishList AddToWishLoist(int userId,int bookId)
         {
@@ -114,46 +118,45 @@ namespace BookstoreRepository.BookstoreRepository
         {
             try
             {
-                Connection();
                 List<WishList> ListwishList = new List<WishList>();
-                SqlCommand objSqlCommand = new SqlCommand("SP_GetWishList", objSqlConnection);
-                objSqlCommand.Parameters.AddWithValue("@userID", userId);
-                objSqlCommand.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
-                DataTable objDataTable = new DataTable();
-                objSqlConnection.Open();
-                objSqlDataAdapter.Fill(objDataTable);
-                objSqlConnection.Close();
-                WishList objwishList;
-                foreach (DataRow reader in objDataTable.Rows)
-                {
-                    objwishList = new WishList();
-                    objwishList.BookId = Convert.ToInt32(reader["BookId"]);
-                    objwishList.Book = new Book()
+                    Connection();
+                    SqlCommand objSqlCommand = new SqlCommand("SP_GetWishList", objSqlConnection);
+                    objSqlCommand.Parameters.AddWithValue("@userID", userId);
+                    objSqlCommand.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter objSqlDataAdapter = new SqlDataAdapter(objSqlCommand);
+                    DataTable objDataTable = new DataTable();
+                    objSqlConnection.Open();
+                    objSqlDataAdapter.Fill(objDataTable);
+                    objSqlConnection.Close();
+                    WishList objwishList;
+                    foreach (DataRow reader in objDataTable.Rows)
                     {
-                        BookId = Convert.ToInt32(reader["BookId"]),
-                        BookName = Convert.ToString(reader["bookName"]),
-                        BookDescription = Convert.ToString(reader["BookDescription"]),
-                        BookAuthor = Convert.ToString(reader["BookAuthor"]),
-                        BookImage = Convert.ToString(reader["BookImage"]),
-                        BookCount = Convert.ToInt32(reader["BookCount"]),
-                        BookPrize = Convert.ToInt32(reader["BookPrize"]),
-                        Rating = Convert.ToInt32(reader["Rating"]),
-                        IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
-                    };
-                    objwishList.UserId = Convert.ToInt32(reader["userId"]);
-                    objwishList.User = new User
-                    {
-                        UserId = (int)reader["userId"],
-                        FullName = (string)reader["FullName"],
-                        Email = (string)reader["email"],
-                        Password = (string)reader["Password"],
-                        MobileNumber = (string)reader["MobileNumber"]
-                    };
-                    objwishList.WishListId = Convert.ToInt32(reader["WishListId"]);
-
-                    ListwishList.Add(objwishList);
-                }
+                        objwishList = new WishList();
+                        objwishList.BookId = Convert.ToInt32(reader["BookId"]);
+                        objwishList.Book = new Book()
+                        {
+                            BookId = Convert.ToInt32(reader["BookId"]),
+                            BookName = Convert.ToString(reader["bookName"]),
+                            BookDescription = Convert.ToString(reader["BookDescription"]),
+                            BookAuthor = Convert.ToString(reader["BookAuthor"]),
+                            BookImage = Convert.ToString(reader["BookImage"]),
+                            BookCount = Convert.ToInt32(reader["BookCount"]),
+                            BookPrize = Convert.ToInt32(reader["BookPrize"]),
+                            Rating = Convert.ToInt32(reader["Rating"]),
+                            IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
+                        };
+                        objwishList.UserId = Convert.ToInt32(reader["userId"]);
+                        objwishList.User = new User
+                        {
+                            UserId = (int)reader["userId"],
+                            FullName = (string)reader["FullName"],
+                            Email = (string)reader["email"],
+                            Password = (string)reader["Password"],
+                            MobileNumber = (string)reader["MobileNumber"]
+                        };
+                        objwishList.WishListId = Convert.ToInt32(reader["WishListId"]);
+                        ListwishList.Add(objwishList);
+                    }
                 return ListwishList;
             }
             catch (Exception ex)

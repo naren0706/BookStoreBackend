@@ -4,6 +4,7 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using FundooModel.User;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using NlogImplementation;
 using System;
@@ -23,14 +24,17 @@ namespace BookstoreRepository.BookstoreRepository
         NlogOperation nlog = new NlogOperation();
         private SqlConnection objSqlConnection;
         public readonly IConfiguration configuration;
+        private readonly IDistributedCache distributedCache;
+
         private void Connection()
         {
             string connectionstr = this.configuration[("ConnectionStrings:UserDbConnection")];
             objSqlConnection = new SqlConnection(connectionstr);
         }
-        public BookRepository(IConfiguration configuration)
+        public BookRepository(IConfiguration configuration, IDistributedCache distributedCache)
         {
             this.configuration = configuration;
+            this.distributedCache = distributedCache;
         }
         public Book AdddBook(Book objBook)
         {

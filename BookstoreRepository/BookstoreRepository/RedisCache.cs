@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using BookstoreModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,17 +16,22 @@ namespace BookstoreRepository.BookstoreRepository
         {
             this.distributedCache=distributedCache;
         }
-        public void PutListToCache(int userid,string key,object value)
+        public void PutListToCache(string key,object value)
         {
             var options = new DistributedCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(60));
             var enlist = value;
             var jsonstring = JsonConvert.SerializeObject(enlist);
             distributedCache.SetString(key, jsonstring, options);
         }
-        public List<object> GetListFromCache(string key)
+        public List<Book> GetBookListFromCache(string key)
         {
             var CacheString = this.distributedCache.GetString(key);
-            return JsonConvert.DeserializeObject<IEnumerable<object>>(CacheString).ToList();
+            return JsonConvert.DeserializeObject<IEnumerable<Book>>(CacheString).ToList();
+        }
+        public List<WishList> GetWishListFromCache(string key)
+        {
+            var CacheString = this.distributedCache.GetString(key);
+            return JsonConvert.DeserializeObject<IEnumerable<WishList>>(CacheString).ToList();
         }
     }
 }

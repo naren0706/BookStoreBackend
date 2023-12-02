@@ -75,3 +75,9 @@ The statement has been terminated.
 The statement has been terminated.
 2023-12-01 19:59:03.3013|ERROR|NlogImplementation.NlogOperation|book not Deleted due toThe DELETE statement conflicted with the REFERENCE constraint "FK__TBL_Cart__BookId__04E4BC85". The conflict occurred in database "Bookstore", table "dbo.TBL_Cart", column 'BookId'.
 The statement has been terminated.
+2023-12-01 20:37:24.1336|DEBUG|NlogImplementation.NlogOperation|User login successfull for narenthrakishhore@gmail.com
+2023-12-01 20:37:24.1336|INFO|NlogImplementation.NlogOperation|user login successfully
+2023-12-01 20:37:41.6953|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Value cannot be null. (Parameter 'value')
+2023-12-01 20:38:31.8031|INFO|NlogImplementation.NlogOperation|book not reterived due to Object reference not set to an instance of an object.
+2023-12-01 20:38:34.6656|ERROR|NlogImplementation.NlogOperation|book added Unsuccessfull due to Value cannot be null. (Parameter 'value')
+2023-12-01 20:39:53.4462|INFO|NlogImplementation.NlogOperation|book not reterived due to Object reference not set to an instance of an object.
