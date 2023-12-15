@@ -22,5 +22,11 @@ namespace BookstoreManager.BookstoreManager
             var result = this.customerFeedbackRepository.AddFeedback(objFeedBack);
             return result;
         }
+
+        public List<Feedback> GetFeedback(int bookId)
+        {
+            var result = this.customerFeedbackRepository.GetFeedback(bookId);
+            return result;
+        }
     }
 }

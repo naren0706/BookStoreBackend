@@ -32,7 +32,7 @@ namespace BookstoreApplication.Controllers
                 if (result != null)
                 {
                     nlog.LogInfo("Wishlist added Successfully");
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Wishlist added Successful", data = result });
                 }
                 nlog.LogInfo("Wishlist added unSuccessfully");
                 return this.BadRequest(new { Status = false, Message = "Not found" });
@@ -84,6 +84,50 @@ namespace BookstoreApplication.Controllers
             catch (Exception ex)
             {
                 nlog.LogInfo("Wishlist removed Successfully");
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPost]
+        [Route("wishlistToCart")]
+        public ActionResult WishlistToCart()
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.wishListManager.WishlistToCart(userId);
+                if (result)
+                {
+                    nlog.LogInfo("Wishlist removed Successfully");
+                    return this.Ok(new { Status = true, Message = "WishList removed successfully", data = result });
+                }
+                nlog.LogInfo("Wishlist removed Successfully");
+                return this.BadRequest(new { Status = false, Message = "Not found" });
+            }
+            catch (Exception ex)
+            {
+                nlog.LogInfo("Wishlist removed Successfully");
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPost]
+        [Route("AddWishListBookToCart")]
+        public ActionResult AddWishListBookToCart(string bookId)
+        {
+            try
+            {
+                var userId = Convert.ToInt32(User.Claims.FirstOrDefault(v => v.Type == "UserId").Value);
+                var result = this.wishListManager.AddWishListBookToCart(userId, bookId);
+                if (result)
+                {
+                    nlog.LogInfo("Wishlist added to cart Successfully");
+                    return this.Ok(new { Status = true, Message = "WishList added to cart successfully", data = result });
+                }
+                nlog.LogInfo("Wishlist added to cart Successfully");
+                return this.BadRequest(new { Status = false, Message = "Not found" });
+            }
+            catch (Exception ex)
+            {
+                nlog.LogInfo("Wishlist added to cart Unsuccessfully");
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }

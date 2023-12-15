@@ -17,5 +17,6 @@ namespace BookstoreModel
         [Required(ErrorMessage = "BookId is null")]
         public int BookId { get; set; }
         public virtual Book Book { get; set; }
+        public bool isAvailable {  get; set; }
     }
 }

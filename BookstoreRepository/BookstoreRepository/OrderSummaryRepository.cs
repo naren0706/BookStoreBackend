@@ -57,7 +57,9 @@ namespace BookstoreRepository.BookstoreRepository
                                 FullName = (string)dr["FullName"],
                                 Email = (string)dr["email"],
                                 Password = (string)dr["Password"],
-                                MobileNumber = (string)dr["MobileNumber"]
+                                MobileNumber = (string)dr["MobileNumber"],
+                                IsAdmin = (bool)dr["IsAdmin"]
+                                
                             },
                             BookId = (int)dr["BookId"],
                             Book = new Book()

@@ -23,7 +23,7 @@ namespace BookstoreModel
         public int BookCount { get; set; }
         [Required(ErrorMessage = "BookPrize is null")]
         public int BookPrize { get; set; }
-        public int Rating { get; set; }
+        public decimal Rating { get; set; }
         public bool IsAvailable { get; set; }
     }
 }

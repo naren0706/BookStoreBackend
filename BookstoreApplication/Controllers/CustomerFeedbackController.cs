@@ -9,7 +9,6 @@ using NlogImplementation;
 
 namespace BookstoreApplication.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerFeedbackController : Controller
@@ -20,6 +19,7 @@ namespace BookstoreApplication.Controllers
         {
             this.customerFeedbackManager = customerFeedbackManager;
         }
+        [Authorize]
         [HttpPost]
         [Route("AddFeedback")]
         public ActionResult AddFeedback(Feedback objFeedBack)
@@ -39,6 +39,27 @@ namespace BookstoreApplication.Controllers
             catch (Exception ex)
             {
                 nlog.LogInfo("FeedBack Added unSuccessfull"+ex.Message);
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("GetFeedBack")]
+        public ActionResult GetFeedBack(int bookId)
+        {
+            try
+            {
+                var result = this.customerFeedbackManager.GetFeedback(bookId);
+                if (result != null)
+                {
+                    nlog.LogInfo("FeedBack Added Successfully");
+                    return this.Ok(new { Status = true, Message = "Feedback retrieved Successful", data = result });
+                }
+                nlog.LogInfo("FeedBack Added unsuccessfully");
+                return this.BadRequest(new { Status = false, Message = "Not found" });
+            }
+            catch (Exception ex)
+            {
+                nlog.LogInfo("FeedBack Added unSuccessfull" + ex.Message);
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }

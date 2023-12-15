@@ -101,7 +101,7 @@ namespace BookstoreRepository.BookstoreRepository
                 objSqlCommand.Parameters.AddWithValue("@userId", userId);
                 objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
                 objSqlConnection.Open();
-                var SqlValue= objSqlCommand.ExecuteScalar();
+                var SqlValue= objSqlCommand.ExecuteNonQuery();
                 nlog.LogError("book is removed from wishlist : ");
                 return true;
             }
@@ -111,7 +111,6 @@ namespace BookstoreRepository.BookstoreRepository
                 throw new Exception(ex.Message);
             }
             finally { objSqlConnection.Close(); }
-
         }
 
         public List<WishList> GetAllWishListBooks(int userId)
@@ -142,7 +141,7 @@ namespace BookstoreRepository.BookstoreRepository
                             BookImage = Convert.ToString(reader["BookImage"]),
                             BookCount = Convert.ToInt32(reader["BookCount"]),
                             BookPrize = Convert.ToInt32(reader["BookPrize"]),
-                            Rating = Convert.ToInt32(reader["Rating"]),
+                            Rating = Convert.ToDecimal(reader["Rating"]),
                             IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
                         };
                         objwishList.UserId = Convert.ToInt32(reader["userId"]);
@@ -152,9 +151,10 @@ namespace BookstoreRepository.BookstoreRepository
                             FullName = (string)reader["FullName"],
                             Email = (string)reader["email"],
                             Password = (string)reader["Password"],
-                            MobileNumber = (string)reader["MobileNumber"]
+                            MobileNumber = (string)reader["MobileNumber"],
+                            IsAdmin = (bool)reader["IsAdmin"]
                         };
-                        objwishList.WishListId = Convert.ToInt32(reader["WishListId"]);
+                    objwishList.WishListId = Convert.ToInt32(reader["WishListId"]);
                         ListwishList.Add(objwishList);
                     }
                 return ListwishList;
@@ -162,6 +162,61 @@ namespace BookstoreRepository.BookstoreRepository
             catch (Exception ex)
             {
                 nlog.LogError("book added Unsuccessfull due to " + ex.Message);
+                throw new Exception(ex.Message);
+            }
+            finally { objSqlConnection.Close(); }
+        }
+
+        public bool WishlistToCart(int userId)
+        {
+            try
+            {
+                Connection();
+                SqlCommand objSqlCommand = new SqlCommand("SP_AddWishListToCart", objSqlConnection);
+                objSqlCommand.Parameters.AddWithValue("@userID", userId);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlConnection.Open();
+                var sqlValue = objSqlCommand.ExecuteNonQuery();
+                if(sqlValue != null) 
+                {
+                    nlog.LogDebug("wishlist has been added to cart");
+                    return true;
+                }
+                objSqlConnection.Close();
+                nlog.LogDebug("wishlist has not been added to cart");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                nlog.LogError("wishlist has not been added to cart"+ex.Message);
+                throw new Exception(ex.Message);
+            }
+            finally { objSqlConnection.Close(); }
+        }
+
+        public bool AddWishListBookToCart(int userId, string bookId)
+        {
+            try
+            {
+                Connection();
+                SqlCommand objSqlCommand = new SqlCommand("SP_AddWishListBookToCart", objSqlConnection);
+                objSqlCommand.Parameters.AddWithValue("@userID", userId);
+                objSqlCommand.Parameters.AddWithValue("@bookId", bookId);
+                objSqlCommand.CommandType = CommandType.StoredProcedure;
+                objSqlConnection.Open();
+                var sqlValue = objSqlCommand.ExecuteNonQuery();
+                if (sqlValue != null)
+                {
+                    nlog.LogDebug("wishlist book has been added to cart");
+                    return true;
+                }
+                objSqlConnection.Close();
+                nlog.LogDebug("wishlist book has not been added to cart");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                nlog.LogError("wishlist book has not been added to cart" + ex.Message);
                 throw new Exception(ex.Message);
             }
             finally { objSqlConnection.Close(); }

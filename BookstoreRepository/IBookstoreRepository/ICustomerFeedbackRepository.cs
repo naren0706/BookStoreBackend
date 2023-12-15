@@ -8,5 +8,6 @@ namespace BookstoreRepository.IBookstoreRepository
     public interface ICustomerFeedbackRepository
     {
         Feedback AddFeedback(Feedback objFeedBack);
+        List<Feedback> GetFeedback(int bookId);
     }
 }

@@ -101,7 +101,7 @@ namespace BookstoreApplication.Controllers
                 if (result != null)
                 {
                     nlog.LogInfo("Address reterived Successfully");
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Customer Details resotored Successful", data = result });
                 }
                 nlog.LogInfo("Address reterived Unsuccessfully");
                 return this.BadRequest(new { Status = false, Message = "Not found" });

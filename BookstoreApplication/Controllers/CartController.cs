@@ -36,7 +36,7 @@ namespace BookstoreApplication.Controllers
                     return this.Ok(new { Status = true, Message = "cart added Successful", data = result });
                 }
                 nlog.LogInfo("cart added UnSuccessfully");
-                return this.BadRequest(new { Status = false, Message = "Not found" });
+                return this.BadRequest(new { Status = false, Message = "book Already in cart" });
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace BookstoreApplication.Controllers
                 if (result != null)
                 {
                     nlog.LogInfo("cart reterived Successfully");
-                    return this.Ok(new { Status = true, Message = "Cart Added Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Cart Restored Successful", data = result });
                 }
                 nlog.LogInfo("cart reterived UnSuccessfully");
                 return this.BadRequest(new { Status = false, Message = "Not found" });

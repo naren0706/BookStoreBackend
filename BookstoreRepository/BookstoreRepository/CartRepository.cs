@@ -50,7 +50,7 @@ namespace BookstoreRepository.BookstoreRepository
                         BookImage = Convert.ToString(reader["BookImage"]),
                         BookCount = Convert.ToInt32(reader["BookCount"]),
                         BookPrize = Convert.ToInt32(reader["BookPrize"]),
-                        Rating = Convert.ToInt32(reader["Rating"]),
+                        Rating = Convert.ToDecimal(reader["Rating"]),
                         IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
                     };
                     objCart.UserId = Convert.ToInt32(reader["userId"]);
@@ -67,7 +67,7 @@ namespace BookstoreRepository.BookstoreRepository
                 }
                 else
                 {
-                    throw new Exception("Book is already in cart");
+                    return null;
                 }
                 objSqlConnection.Close();
                 nlog.LogDebug("Cart Added");
@@ -110,7 +110,7 @@ namespace BookstoreRepository.BookstoreRepository
                         BookImage = Convert.ToString(reader["BookImage"]),
                         BookCount = Convert.ToInt32(reader["BookCount"]),
                         BookPrize = Convert.ToInt32(reader["BookPrize"]),
-                        Rating = Convert.ToInt32(reader["Rating"]),
+                        Rating = Convert.ToDecimal(reader["Rating"]),
                         IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
                     };
                     objCart.UserId = Convert.ToInt32(reader["userId"]);
@@ -194,7 +194,7 @@ namespace BookstoreRepository.BookstoreRepository
                         BookImage = Convert.ToString(reader["BookImage"]),
                         BookCount = Convert.ToInt32(reader["BookCount"]),
                         BookPrize = Convert.ToInt32(reader["BookPrize"]),
-                        Rating = Convert.ToInt32(reader["Rating"]),
+                        Rating = Convert.ToDecimal(reader["Rating"]),
                         IsAvailable = Convert.ToBoolean(reader["IsAvailable"])
                     };
                     objCart.UserId = Convert.ToInt32(reader["userId"]);

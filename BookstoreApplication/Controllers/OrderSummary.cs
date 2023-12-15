@@ -1,6 +1,7 @@
 ﻿using BookstoreManager.BookstoreManager;
 using BookstoreManager.IBookstoreManager;
 using BookstoreModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NLog.Fluent;
 using NlogImplementation;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace BookstoreApplication.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderSummary : Controller
@@ -31,7 +33,7 @@ namespace BookstoreApplication.Controllers
                 if (result != null)
                 {
                     nlog.LogError("Summary reterived successfully");
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "Summmary resotored Successful", data = result });
                 }
                 nlog.LogError("Summary reterived  unsuccessfully");
                 return this.BadRequest(new { Status = false, Message = "Not found" });

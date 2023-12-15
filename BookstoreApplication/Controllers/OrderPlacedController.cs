@@ -30,7 +30,7 @@ namespace BookstoreApplication.Controllers
                 if (result)
                 {
                     nlog.LogInfo("order placed Successfully");
-                    return this.Ok(new { Status = true, Message = "Note resotored Successful", data = result });
+                    return this.Ok(new { Status = true, Message = "order placed Successful", data = result });
                 }
                 nlog.LogInfo("order placed Unsuccessfully");
                 return this.BadRequest(new { Status = false, Message = "Not found" });

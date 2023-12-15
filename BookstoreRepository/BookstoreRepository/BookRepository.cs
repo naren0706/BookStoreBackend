@@ -100,7 +100,7 @@ namespace BookstoreRepository.BookstoreRepository
                         BookImage = Convert.ToString(dr["BookImage"]),
                         BookCount = Convert.ToInt32(dr["BookCount"]),
                         BookPrize = Convert.ToInt32(dr["BookPrize"]),
-                        Rating = Convert.ToInt32(dr["Rating"]),
+                        Rating = Convert.ToDecimal(dr["Rating"]),
                         IsAvailable = Convert.ToBoolean(dr["IsAvailable"])
                     });
                 }

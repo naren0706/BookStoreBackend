@@ -10,5 +10,7 @@ namespace BookstoreRepository.IBookstoreRepository
         public WishList AddToWishLoist(int userId, int bookId);
         public bool RemoveBookFromWishList(int userId, string bookId);
         public List<WishList> GetAllWishListBooks(int userId);
+        public bool WishlistToCart(int userId);
+        public bool AddWishListBookToCart(int userId, string bookId);
     }
 }

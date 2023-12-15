@@ -29,8 +29,8 @@ namespace FundooModel.User
             {
                 var msg = messageQueue.EndReceive(e.AsyncResult);
                 string token = msg.Body.ToString();
-                string subject = "Fundoo Notes App Reset Link";
-                string body = "http://localhost:4200/reset-password/" + token;
+                string subject = "Bookstore Notes App Reset Link";
+                string body = "http://localhost:4200/password/reset/" + token;
                 var SMTP = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,

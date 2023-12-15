@@ -53,7 +53,8 @@ namespace BookstoreRepository.BookstoreRepository
                         FullName= (string)reader["FullName"],
                         Email = (string)reader["email"],
                         Password = (string)reader["Password"],
-                        MobileNumber = (string)reader["MobileNumber"]
+                        MobileNumber = (string)reader["MobileNumber"],
+                        IsAdmin = (bool)reader["IsAdmin"]
                     };
                     nlog.LogDebug(objUser.FullName + " User Registers successfull");
                 }
